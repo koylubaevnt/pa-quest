@@ -1,0 +1,41 @@
+
+  <mat-table class="mt-5" [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Имя </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef> Логин </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.username }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Почта </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Операции </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-mini-fab (click)="edit(element)" class="mr-2">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="delete(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table> 
+
+  <mat-paginator 
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageEvent = $event"
+    showFirstLastButtons ></mat-paginator>
+
+<div class="spinner-wrapper" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+</div>

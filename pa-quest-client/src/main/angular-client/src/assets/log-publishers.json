@@ -1,0 +1,17 @@
+[
+    {
+      "loggerName": "console",
+      "loggerLocation": "",
+      "isActive": true
+    },
+    {
+      "loggerName": "localstorage",
+      "loggerLocation": "pa-quest-log",
+      "isActive": false
+    },
+    {
+      "loggerName": "webapi",
+      "loggerLocation": "log",
+      "isActive": false
+    }
+  ]

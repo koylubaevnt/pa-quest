@@ -1,0 +1,13 @@
+.no-loader {
+    height: 4px;
+    position: fixed;
+    width: 100% !important;
+}
+
+.loader {
+    top: 0;
+    left: 0;
+    z-index: 2;
+    position: fixed;
+    width: 100% !important;
+}
