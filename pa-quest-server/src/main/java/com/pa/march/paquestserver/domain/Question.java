@@ -33,9 +33,16 @@ public class Question {
     @Size(max = 255)
     private String text;
 
-    @ManyToOne(fetch =  FetchType.LAZY, optional = false)
-    @JoinColumn(name = "content_id", nullable = true)
-    private Content content;
+//    @ManyToOne(fetch =  FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "content_id", nullable = true)
+//    private Content content;
+
+    @Column(name = "youtube_video_url", nullable = false)
+    private String youtubeVideoId;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "correct_answer_id", nullable = false)
+    private Answer correctAnswer;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,

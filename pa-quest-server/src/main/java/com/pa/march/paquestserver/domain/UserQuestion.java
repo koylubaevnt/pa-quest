@@ -30,7 +30,10 @@ public class UserQuestion {
     //@OneToOne(fetch = FetchType.LAZY,
     //    mappedBy = "answer",
     //    optional = false)
-    //private Answer userAnswer;
+    //private AnswerForm userAnswer;
+
+    @Column(name = "is_answered", nullable = false)
+    private Boolean answered;
 
     @Column(name = "count_attempts", nullable = false)
     private Integer numberOfAttempts;

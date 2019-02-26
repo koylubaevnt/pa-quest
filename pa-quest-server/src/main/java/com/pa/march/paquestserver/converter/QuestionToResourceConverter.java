@@ -27,7 +27,8 @@ public class QuestionToResourceConverter extends ConversionServiceAwareConverter
         questionResource.setId(question.getId());
         questionResource.setText(question.getText());
 
-        questionResource.setContent(conversionService.convert(question.getContent(), ContentResource.class));
+        //questionResource.setContent(conversionService.convert(question.getContent(), ContentResource.class));
+        questionResource.setYoutubeVideoId(question.getYoutubeVideoId());
 
         TypeDescriptor sourceType = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Answer.class));
         TypeDescriptor targetType = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(AnswerResource.class));

@@ -6,6 +6,9 @@ import { RegisterComponent } from './component/register/register.component';
 import { AuthGuard } from './guard/auth-guard';
 import { RoleGuard } from './guard/role-guard';
 import { UserComponent } from './component/user/user.component';
+import { StartQuestComponent } from './component/quest/start-quest/start-quest.component';
+import { CongratulationComponent } from './component/congratulation/congratulation.component';
+import { FinishQuestGuard } from './guard/finish-quest-guard';
 
 const routes: Routes = [
 
@@ -13,6 +16,16 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'start-quest',
+    component: StartQuestComponent,
+    canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'congratulation',
+    component: CongratulationComponent,
+    canActivate: [ AuthGuard, FinishQuestGuard ]
   },
   {
     path: 'user',

@@ -1,0 +1,11 @@
+<div class="container content" *ngIf="videoId"
+  fxLayout="column"
+  fxLayoutAlign="center center">
+    <iframe
+      class="youtube-player"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      [src]="getVideoUrl()"
+      allowfullscreen>
+    </iframe>
+</div>

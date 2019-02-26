@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl } from '@angular/material';
+import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { UserComponent } from './component/user/user.component';
 import { RussianPaginator } from './common/paginator/russian-paginator';
 import { FooterComponent } from './component/footer/footer.component';
+import { StartQuestComponent } from './component/quest/start-quest/start-quest.component';
+import { CongratulationComponent } from './component/congratulation/congratulation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { FooterComponent } from './component/footer/footer.component';
     LoaderComponent,
     NavBarComponent,
     FooterComponent,
+    StartQuestComponent,
+    CongratulationComponent,
 
   ],
   imports: [
@@ -42,7 +47,10 @@ import { FooterComponent } from './component/footer/footer.component';
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatGridListModule,
+    FlexLayoutModule
   ],
   providers: [
     httpInterceptorProviders,

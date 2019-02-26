@@ -77,6 +77,7 @@ create sequence question_sequence start with 1 increment by 1;
 create sequence content_sequence start with 1 increment by 1;
 create sequence user_question_sequence start with 1 increment by 1;
 create sequence user_quest_sequence start with 1 increment by 1;
+create sequence congratulation_sequence start with 1 increment by 1;
 
 create table content (
     id bigint not null,
@@ -99,12 +100,11 @@ alter table answer
 create table question (
     id bigint not null,
     text varchar(255) not null,
+    youtube_video_url varchar(1024) not null,
     content_id bigint,
-    correct_answer bigint not null,
+    correct_answer_id bigint not null,
     primary key (id)
 );
-alter table question
-   add constraint UK_question_text unique (text);
 alter table question
    add constraint FK_question_content
    foreign key (content_id)
@@ -112,7 +112,7 @@ alter table question
 
 alter table question
    add constraint FK_question_answer
-   foreign key (correct_answer)
+   foreign key (correct_answer_id)
    references answer;
 
 create table question_answer (
@@ -140,6 +140,7 @@ create table user_question (
     user_quest_id bigint not null,
     question_id bigint not null,
     count_attempts int not null default 0,
+    is_answered boolean not null default false,
     seq int not null default 0,
     start timestamp,
     finish timestamp,
@@ -167,6 +168,12 @@ alter table result
    foreign key (user_id)
    references users;
 
+create table congratulation(
+    id bigint not null,
+    video_id varchar(100) not null,
+    primary key(id)
+);
+
 
 SET @v_correct_answer_id = nextval('answer_sequence');
 SET @v_answer_1_id = nextval('answer_sequence');
@@ -185,8 +192,10 @@ insert into content(id, name, extension, type, content) values (@v_content_link_
 
 SET @v_question_1_id = nextval('question_sequence');
 SET @v_question_2_id = nextval('question_sequence');
-insert into question(id, text, content_id, correct_answer) values(@v_question_1_id, 'Что это за памятник? (видео файл)', @v_content_file_id, @v_correct_answer_id);
-insert into question(id, text, content_id, correct_answer) values(@v_question_2_id, 'Что это за памятник? (ссылка)', @v_content_link_id, @v_correct_answer_id);
+SET @v_question_3_id = nextval('question_sequence');
+insert into question(id, text, content_id, correct_answer_id, youtube_video_url) values(@v_question_1_id, 'Что это за памятник?', @v_content_file_id, @v_correct_answer_id, 'HBiPThwCQOM');
+insert into question(id, text, content_id, correct_answer_id, youtube_video_url) values(@v_question_2_id, 'Что это за памятник?', @v_content_link_id, @v_correct_answer_id, '7OoCjdtX5D8');
+insert into question(id, text, content_id, correct_answer_id, youtube_video_url) values(@v_question_3_id, 'Что это за памятник? Ответов меньше 4', @v_content_link_id, @v_answer_2_id, 'OoS6dY5fa60');
 
 insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_correct_answer_id);
 insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_1_id);
@@ -197,3 +206,10 @@ insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_
 insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_1_id);
 insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_3_id);
 insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_correct_answer_id);
+
+insert into question_answer(question_id, answer_id) values(@v_question_3_id, @v_answer_2_id);
+insert into question_answer(question_id, answer_id) values(@v_question_3_id, @v_answer_1_id);
+insert into question_answer(question_id, answer_id) values(@v_question_3_id, @v_answer_3_id);
+
+
+insert into congratulation(id, video_id) values(nextval('congratulation_sequence'), '2YHpZbsUgK4');

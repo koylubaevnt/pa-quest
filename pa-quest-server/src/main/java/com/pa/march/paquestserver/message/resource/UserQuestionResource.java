@@ -15,6 +15,8 @@ public class UserQuestionResource extends BaseResource {
 
     private Integer numberOfAttempts;
 
+    private Boolean answered;
+
     private QuestionResource question;
 
 }

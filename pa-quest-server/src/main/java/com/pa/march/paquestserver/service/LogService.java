@@ -2,7 +2,7 @@ package com.pa.march.paquestserver.service;
 
 import com.pa.march.paquestserver.domain.LogEntry;
 import com.pa.march.paquestserver.domain.LogLevel;
-import com.pa.march.paquestserver.dto.LogEntryDto;
+import com.pa.march.paquestserver.message.dto.LogEntryDto;
 import com.pa.march.paquestserver.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

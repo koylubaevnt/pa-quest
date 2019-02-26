@@ -22,6 +22,7 @@ public class UserQuestToResourceConverter extends ConversionServiceAwareConverte
 
         UserQuestResource userQuestResource = new UserQuestResource();
         userQuestResource.setId(userQuest.getId());
+        userQuestResource.setActive(userQuest.getActive());
 
         TypeDescriptor sourceType = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserQuestion.class));
         TypeDescriptor targetType = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserQuestionResource.class));

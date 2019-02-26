@@ -1,0 +1,33 @@
+<div *ngIf="questFinished">
+  Поздравляю, Вы прошли квест.<br />
+  Вы заработали просмотр поздравительного видео:<br />
+  <a class="btn btn-primary" routerLink="/congratulation">Поздравлениe</a>
+
+  <br />Если Вам понравилось, то вы можете попробовать еще раз пройти квест.<br />
+  <button class="btn btn-primary" (click)="startQuest">Начать квест</button>  
+  
+</div>
+<div class="container main-div" *ngIf="!!currentQuestion">
+  <mat-card class="example-card center">
+    <mat-card-header>
+      <mat-card-title>{{question}}</mat-card-title>
+      <mat-card-subtitle>Количество попыток: {{currentQuestion.numberOfAttempts}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <iframe
+        class="youtube-player"
+        frameborder="0"
+        height = "400px"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        [src]="videoUrl">
+      </iframe>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-grid-list cols="2" rowHeight="8:1">
+        <mat-grid-tile *ngFor="let answer of currentQuestion.question.answers">
+            <button mat-button (click)="saveAnswer(answer)">{{answer.text}}</button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-actions>
+  </mat-card>
+</div>

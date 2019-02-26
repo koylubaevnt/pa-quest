@@ -9,6 +9,8 @@ import java.util.List;
 @ToString(includeFieldNames = true, callSuper = true)
 public class UserQuestResource extends BaseResource {
 
+    private Boolean active;
+
     private List<UserQuestionResource> questions;
 
 }

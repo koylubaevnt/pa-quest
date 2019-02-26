@@ -1,4 +1,4 @@
-package com.pa.march.paquestserver.dto;
+package com.pa.march.paquestserver.message.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

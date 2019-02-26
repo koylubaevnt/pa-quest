@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
+import { UserQuestService } from 'src/app/service/user-quest.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,8 +13,9 @@ export class NavBarComponent implements OnInit {
   
   private roles: string[] = [];
   private authorized: boolean = false;
+  private finished: Boolean;
 
-  constructor(private tokenStorageService: TokenStorageService, private authService: AuthenticationService) { }
+  constructor(private tokenStorageService: TokenStorageService, private authService: AuthenticationService, private userQuesrService: UserQuestService) { }
 
   ngOnInit() {
     if (this.tokenStorageService.getToken()) {
@@ -28,7 +31,11 @@ export class NavBarComponent implements OnInit {
       //} else {
         //this.tokenStorageService.signOut();
       }     
-    })
+    });
+    this.userQuesrService.oneQuestIsFinished$.subscribe(finished => {
+      this.finished = finished;
+    });
+    this.userQuesrService.isFinishQuest().subscribe(_ => _);
   }
 
   

@@ -1,19 +1,19 @@
 package com.pa.march.paquestserver.service;
 
-import com.pa.march.paquestserver.domain.UserQuest;
-import com.pa.march.paquestserver.domain.Question;
-import com.pa.march.paquestserver.domain.User;
-import com.pa.march.paquestserver.domain.UserQuestion;
+import com.pa.march.paquestserver.domain.*;
+import com.pa.march.paquestserver.exception.QuestException;
 import com.pa.march.paquestserver.helper.TransactionHelper;
 import com.pa.march.paquestserver.message.resource.UserQuestResource;
 import com.pa.march.paquestserver.repository.UserQuestRepository;
 import com.pa.march.paquestserver.repository.QuestionRepository;
+import com.pa.march.paquestserver.repository.UserQuestionRepository;
 import com.pa.march.paquestserver.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,6 +30,9 @@ public class UserQuestServiceImpl implements UserQuestService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserQuestionRepository userQuestionRepository;
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -53,6 +56,64 @@ public class UserQuestServiceImpl implements UserQuestService {
         log.debug("userQuest={}", userQuest);
         UserQuestResource userQuestResource = conversionService.convert(userQuest, UserQuestResource.class);
         return userQuestResource;
+    }
+
+    @Override
+    @Transactional
+    public UserQuestResource saveAnswer(UserPrinciple userPrinciple, Long userQuestId, Long userQuestionId, Long userAnswerId) {
+        log.debug("userPrinciple={}", userPrinciple);
+        Long userId = userPrinciple.getId();
+        List<UserQuest> userQuests = userQuestRepository.findByIdAndUserId(userQuestId, userId);
+        log.debug("userQuests.size={}", userQuests.size());
+        if (userQuests.size() == 0) {
+            log.error("Пользователь сохраняет ответы не для своего квеста! {}, {}", userId, userQuestId);
+            throw new QuestException(500, "Пользователь сохраняет ответы не для своего квеста!");
+        }
+        UserQuest userQuest = userQuests.get(0);
+        UserQuestion userQuestion = userQuest.getUserQuestions().stream()
+                .filter(e -> e.getId().equals(userQuestionId))
+                .findFirst()
+                .orElse(null);
+        if (userQuestion == null) {
+            log.error("В пользовательском квесте нет такого пользовательского вопроса! {}, {}", userQuestId, userQuestionId);
+            throw new QuestException(500, "В пользовательском квесте нет такого пользовательского вопроса!");
+        }
+        Answer correctAnswer = userQuestion.getQuestion().getCorrectAnswer();
+        if (correctAnswer.getId().equals(userAnswerId)) {
+            log.debug("Ответ на вопрос корректен");
+            LocalDateTime finishTime = LocalDateTime.now();
+            userQuestion.setFinish(finishTime);
+            userQuestion.setAnswered(true);
+
+            UserQuestion nextUserQuestion = userQuest.getUserQuestions().stream().filter(e -> !e.getAnswered()).findFirst().orElse(null);
+
+            if (nextUserQuestion == null) {
+                // Больше нет вопросов для ответов
+                log.debug("Больше нет вопросов для ответов");
+                userQuest.setActive(false);
+                userQuest.setFinish(finishTime);
+            } else {
+                nextUserQuestion.setStart(LocalDateTime.now());
+            }
+        } else {
+            log.debug("Ответ на вопрос не корректен");
+            int count = userQuestion.getNumberOfAttempts() + 1;
+            userQuestion.setNumberOfAttempts(count);
+        }
+        //userQuestionRepository.save(userQuestion);
+        userQuest = userQuestRepository.save(userQuest);
+        log.debug("userQuest={}", userQuest);
+        UserQuestResource userQuestResource = conversionService.convert(userQuest, UserQuestResource.class);
+        return userQuestResource;
+    }
+
+    @Override
+    public Boolean userQuestIsFinished(UserPrinciple userPrinciple) {
+        log.debug("userPrinciple={}", userPrinciple);
+        Long userId = userPrinciple.getId();
+        Long count = userQuestRepository.countByUserIdAndActive(userId, false);
+        log.debug("count finished quests: {}", count);
+        return count > 0;
     }
 
     private List<UserQuest> generateQuest(Long userId) {
@@ -82,8 +143,7 @@ public class UserQuestServiceImpl implements UserQuestService {
                         .map(e -> e.getQuestion().getId())
                 .collect(Collectors.toSet());
 
-        final List<Question> list = questionRepository.findByIdNotIn(questionIds).stream()
-            .collect(Collectors.toList());
+        final List<Question> list = new ArrayList<>(questionRepository.findByIdNotIn(questionIds));
         boolean notEnoughtQuestion = false;
         if (list.size() == 0) {
             // TODO: подумать как сделать выборку 5 случайных записей из таблицы путем использования запросов к БД.
@@ -116,6 +176,7 @@ public class UserQuestServiceImpl implements UserQuestService {
                         UserQuestion userQuestion = new UserQuestion();
                         userQuestion.setQuestion(e);
                         userQuestion.setNumberOfAttempts(0);
+                        userQuestion.setAnswered(false);
                         userQuestion.setOrder(index.getAndIncrement());
                         userQuestion.setUserQuest(userQuest);
                         return userQuestion;
@@ -127,9 +188,11 @@ public class UserQuestServiceImpl implements UserQuestService {
             Random random = new Random();
             userQuestions = random.ints(COUNT_QUESTION_IN_QUEST, 0, list.size()).
                 mapToObj(e -> {
+                    log.debug("Случайный индекс: {}", e);
                     UserQuestion userQuestion = new UserQuestion();
                     userQuestion.setQuestion(list.get(e));
                     userQuestion.setNumberOfAttempts(0);
+                    userQuestion.setAnswered(false);
                     userQuestion.setOrder(index.getAndIncrement());
                     userQuestion.setUserQuest(userQuest);
                     return userQuestion;
@@ -137,6 +200,7 @@ public class UserQuestServiceImpl implements UserQuestService {
                     .collect(Collectors.toList());
         }
         userQuest.getUserQuestions().addAll(userQuestions);
+        userQuest.getUserQuestions().get(0).setStart(LocalDateTime.now());
 
         UserQuest savedUserQuest = userQuestRepository.save(userQuest);
 

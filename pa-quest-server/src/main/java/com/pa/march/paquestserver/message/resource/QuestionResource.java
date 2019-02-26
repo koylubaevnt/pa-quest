@@ -13,7 +13,9 @@ public class QuestionResource extends BaseResource {
 
     private String text;
 
-    private ContentResource content;
+    //private ContentResource content;
+
+    private String youtubeVideoId;
 
     private List<AnswerResource> answers;
 

@@ -18,6 +18,7 @@ public class UserQuestionToResourceConverter extends ConversionServiceAwareConve
         userQuestionResource.setId(userQuestion.getId());
         userQuestionResource.setStart(userQuestion.getStart());
         userQuestionResource.setFinish(userQuestion.getFinish());
+        userQuestionResource.setAnswered(userQuestion.getAnswered());
         userQuestionResource.setNumberOfAttempts(userQuestion.getNumberOfAttempts());
 
         userQuestionResource.setQuestion(conversionService().convert(userQuestion.getQuestion(), QuestionResource.class));

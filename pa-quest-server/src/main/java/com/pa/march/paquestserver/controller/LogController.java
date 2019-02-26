@@ -1,6 +1,6 @@
 package com.pa.march.paquestserver.controller;
 
-import com.pa.march.paquestserver.dto.LogEntryDto;
+import com.pa.march.paquestserver.message.dto.LogEntryDto;
 import com.pa.march.paquestserver.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
