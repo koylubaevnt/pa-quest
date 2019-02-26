@@ -1,4 +1,4 @@
-create sequence hibernate_sequence start with 1 increment by 1
+create sequence hibernate_sequence start with 1 increment by 1;
 
 create table log_from_web (
     id bigint not null,
@@ -16,6 +16,7 @@ create table log_from_web_extra (
 create table roles (
     id bigint not null,
     name varchar(60),
+    text varchar(60),
     primary key (id)
 );
 
@@ -58,5 +59,126 @@ alter table user_roles
    foreign key (user_id)
    references users;
 
-INSERT INTO roles(id, name) VALUES(nextval('hibernate_sequence'),'ROLE_USER');
-INSERT INTO roles(id, name) VALUES(nextval('hibernate_sequence'), 'ROLE_ADMIN');
+
+
+SET @v_role_admin_id = nextval('hibernate_sequence');
+INSERT INTO roles(id, name, text) VALUES(@v_role_admin_id, 'ROLE_ADMIN', 'Администратор');
+INSERT INTO roles(id, name, text) VALUES(nextval('hibernate_sequence'), 'ROLE_USER', 'Пользователь');
+
+
+SET @v_user_admin_id = nextval('hibernate_sequence');
+INSERT INTO users(id, email, name, password, username)
+VALUES(@v_user_admin_id, 'admin@mail.ru', 'admin', '$2a$04$zfIHQdNS3R0qvDtCK9DylOp2VfgnXDE0DBahjlANa5O4Y9n35gXfO', 'admin');
+
+INSERT INTO user_roles(user_id, role_id) VALUES(@v_user_admin_id, @v_role_admin_id);
+
+create sequence answer_sequence start with 1 increment by 1;
+create sequence question_sequence start with 1 increment by 1;
+create sequence content_sequence start with 1 increment by 1;
+create sequence user_question_sequence start with 1 increment by 1;
+create sequence user_quest_sequence start with 1 increment by 1;
+
+create table content (
+    id bigint not null,
+    content blob,
+    type varchar(60),
+    extension varchar(10) not null,
+    name varchar(1024) not null,
+    primary key (id)
+);
+
+create table answer (
+    id bigint not null,
+    text varchar(100) not null ,
+    primary key (id)
+);
+
+alter table answer
+   add constraint UK_answer_text unique (text);
+
+create table question (
+    id bigint not null,
+    text varchar(255) not null,
+    content_id bigint,
+    correct_answer bigint not null,
+    primary key (id)
+);
+alter table question
+   add constraint UK_question_text unique (text);
+alter table question
+   add constraint FK_question_content
+   foreign key (content_id)
+   references content;
+
+alter table question
+   add constraint FK_question_answer
+   foreign key (correct_answer)
+   references answer;
+
+create table question_answer (
+    question_id bigint not null,
+    answer_id bigint not null,
+    primary key (question_id, answer_id)
+);
+
+create table user_quest (
+    id bigint not null,
+    active boolean default true,
+    user_id bigint not null,
+    start timestamp,
+    finish timestamp,
+    primary key (id)
+
+);
+alter table user_quest
+   add constraint FK_user_quest_user
+   foreign key (user_id)
+   references users;
+
+create table user_question (
+    id bigint not null,
+    user_quest_id bigint not null,
+    question_id bigint not null,
+    count_attempts int not null default 0,
+    seq int not null default 0,
+    start timestamp,
+    finish timestamp,
+    primary key (id)
+);
+alter table user_question
+   add constraint FK_user_question_user_quest
+   foreign key (user_quest_id)
+   references user_quest;
+alter table user_question
+   add constraint FK_user_question_user_question
+   foreign key (question_id)
+   references question;
+
+create table result (
+    id bigint not null,
+    user_id bigint not null,
+    total_question bigint not null default 0,
+    correct_answer_count bigint not null default 0,
+    correct_answer_percentage decimal not null default 0,
+    primary key (id)
+);
+alter table result
+   add constraint FK_result_user
+   foreign key (user_id)
+   references users;
+
+
+SET @v_correct_answer_id = nextval('answer_sequence');
+insert into answer (id, text) values(@v_correct_answer_id, 'Памятник 100 летию Финской демократии');
+insert into answer (id, text) values(nextval('answer_sequence'), 'Памятник Финляндии');
+insert into answer (id, text) values(nextval('answer_sequence'), 'Памятник новаторским идеям');
+insert into answer (id, text) values(nextval('answer_sequence'), 'Памятник памятнику');
+
+SET @v_content_file_id = nextval('content_sequence');
+SET @v_content_link_id = nextval('content_sequence');
+
+insert into content(id, name, extension, type, content) values (@v_content_file_id, 'Памятник загадка', 'mp4', 'FILE', null);
+insert into content(id, name, extension, type, content) values (@v_content_link_id, 'https://wwww/youtube.com/watch?v=HBiPThwCQOM&index=5&list=PL5r1HBOJCfZbr6nEDg6zQZx1pLkqLq4Be', 'mp4', 'LINK', null);
+
+insert into question(id, text, content_id, correct_answer) values(nextval('question_sequence'), 'Что это за памятник? (видео файл)', @v_content_file_id, @v_correct_answer_id);
+insert into question(id, text, content_id, correct_answer) values(nextval('question_sequence'), 'Что это за памятник? (ссылка)', @v_content_link_id, @v_correct_answer_id);
