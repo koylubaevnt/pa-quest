@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.pa.8march</groupId>
-		<artifactId>pa-quest</artifactId>
+		<artifactId>pa-userQuest</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 
-	<artifactId>pa-quest-server</artifactId>
-	<name>pa-quest-server</name>
+	<artifactId>pa-userQuest-server</artifactId>
+	<name>pa-userQuest-server</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -77,9 +77,14 @@
 			<version>1.18.6</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+        </dependency>
 
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
@@ -97,7 +102,7 @@
 							<outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/pa-quest-client/src/main/angular-client/dist/np-app/</directory>
+									<directory>${project.parent.basedir}/pa-userQuest-client/src/main/angular-client/dist/np-app/</directory>
 								</resource>
 							</resources>
 						</configuration>

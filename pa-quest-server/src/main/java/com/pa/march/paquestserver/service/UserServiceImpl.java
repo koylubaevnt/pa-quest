@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -37,19 +38,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    //@Autowired
-    //private QuestRepository questRepository;
-
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ConversionService conversionService;
+
     @Override
     public Page<UserResource> findUserPagingFiltering(String search, PageRequest pageable) {
         Page<User> domains;
         if (search == null || search.isEmpty()) {
+            // TODO: разоюраться почему не срабатывает Spring Method Name
             //domains = userRepository.findAllByOrderByUsernameAsc(pageable);
             domains = userRepository.findAll(pageable);
         } else {
@@ -69,9 +71,10 @@ public class UserServiceImpl implements UserService {
         List<User> list = domains.getContent();
         List<UserResource> resource = new ArrayList<>();
         for (User domain : list) {
-            UserResource res = new UserResource();
-            userToUserResource(domain, res);
-            // TODO: подумать и заменить установку password=null на праивльное решение (думаю -> не должны мы слать эти поля просто)
+//            UserResource res = new UserResource();
+//            userToUserResource(domain, res);
+            UserResource res = conversionService.convert(domain, UserResource.class);
+            // TODO: подумать и заменить установку password=null на правильное решение (думаю -> не должны мы слать эти поля просто)
             res.setPassword(null);
             resource.add(res);
         }
@@ -223,7 +226,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userRepository.findById(userId).orElse(null);
             if (user != null) {
-                /*List<Quest> quests = questRepository.findByUser(userId);
+                /*List<UserQuest> quests = questRepository.findByUser(userId);
                 if (!quests.isEmpty()) {
                     response.setCode(500);
                     response.setMessage("Есть квесты у данного пользователя");
