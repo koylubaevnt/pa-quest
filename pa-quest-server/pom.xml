@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.pa.8march</groupId>
-		<artifactId>pa-userQuest</artifactId>
+		<artifactId>pa-quest</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 
-	<artifactId>pa-userQuest-server</artifactId>
-	<name>pa-userQuest-server</name>
+	<artifactId>pa-quest-server</artifactId>
+	<name>pa-quest-server</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -102,7 +102,7 @@
 							<outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/pa-userQuest-client/src/main/angular-client/dist/np-app/</directory>
+									<directory>${project.parent.basedir}/pa-quest-client/src/main/angular-client/dist/np-app/</directory>
 								</resource>
 							</resources>
 						</configuration>

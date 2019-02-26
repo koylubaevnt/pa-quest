@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.pa.8march</groupId>
-	<artifactId>pa-userQuest-client</artifactId>
+	<artifactId>pa-quest-client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pa-userQuest-client</name>
+	<name>pa-quest-client</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
