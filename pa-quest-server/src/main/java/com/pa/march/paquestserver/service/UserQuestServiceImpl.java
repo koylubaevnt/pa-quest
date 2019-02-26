@@ -19,9 +19,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-@Service("questService")
+@Service("userQuestService")
 @Slf4j
-public class QuestServiceImpl implements  QuestService {
+public class UserQuestServiceImpl implements UserQuestService {
 
     private static final int COUNT_QUESTION_IN_QUEST = 5;
 
@@ -36,9 +36,6 @@ public class QuestServiceImpl implements  QuestService {
 
     @Autowired
     private ConversionService conversionService;
-
-    //@Autowired
-    //private UserQuestToResourceConverter questConverter;
 
     @Autowired
     private TransactionHelper transactionHelper;

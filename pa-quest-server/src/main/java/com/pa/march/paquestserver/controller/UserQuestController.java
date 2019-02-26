@@ -2,7 +2,7 @@ package com.pa.march.paquestserver.controller;
 
 import com.pa.march.paquestserver.message.resource.UserQuestResource;
 import com.pa.march.paquestserver.message.response.DataResponse;
-import com.pa.march.paquestserver.service.QuestService;
+import com.pa.march.paquestserver.service.UserQuestService;
 import com.pa.march.paquestserver.service.UserPrinciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +18,13 @@ import java.util.Arrays;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/userQuest")
+@RequestMapping("/api/quest")
 @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 public class UserQuestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserQuestController.class);
     @Autowired
-    private QuestService questService;
+    private UserQuestService userQuestService;
 
     /**
      * Начало пользовательского квеста
@@ -36,7 +36,7 @@ public class UserQuestController {
     public ResponseEntity<DataResponse<UserQuestResource>> getQuest(HttpServletRequest request, @AuthenticationPrincipal UserPrinciple userPrinciple) {
         LOG.info("POST: api/userQuest, userPrinciple = {}", userPrinciple);
         try {
-            UserQuestResource resource = questService.findQuestForUser(userPrinciple);
+            UserQuestResource resource = userQuestService.findQuestForUser(userPrinciple);
             DataResponse<UserQuestResource> response = new DataResponse<>();
             response.setData(resource);
             ResponseEntity<DataResponse<UserQuestResource>> entity = new ResponseEntity<>(response, HttpStatus.OK);

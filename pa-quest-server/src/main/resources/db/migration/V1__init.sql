@@ -169,16 +169,31 @@ alter table result
 
 
 SET @v_correct_answer_id = nextval('answer_sequence');
+SET @v_answer_1_id = nextval('answer_sequence');
+SET @v_answer_2_id = nextval('answer_sequence');
+SET @v_answer_3_id = nextval('answer_sequence');
 insert into answer (id, text) values(@v_correct_answer_id, 'Памятник 100 летию Финской демократии');
-insert into answer (id, text) values(nextval('answer_sequence'), 'Памятник Финляндии');
-insert into answer (id, text) values(nextval('answer_sequence'), 'Памятник новаторским идеям');
-insert into answer (id, text) values(nextval('answer_sequence'), 'Памятник памятнику');
+insert into answer (id, text) values(@v_answer_1_id, 'Памятник Финляндии');
+insert into answer (id, text) values(@v_answer_2_id, 'Памятник новаторским идеям');
+insert into answer (id, text) values(@v_answer_3_id, 'Памятник памятнику');
 
 SET @v_content_file_id = nextval('content_sequence');
 SET @v_content_link_id = nextval('content_sequence');
-
-insert into content(id, name, extension, type, content) values (@v_content_file_id, 'Памятник загадка', 'mp4', 'FILE', null);
+insert into content(id, name, extension, type, content) values (@v_content_file_id, 'Памятник загадка', 'mp4', 'FILE', '1234');
 insert into content(id, name, extension, type, content) values (@v_content_link_id, 'https://wwww/youtube.com/watch?v=HBiPThwCQOM&index=5&list=PL5r1HBOJCfZbr6nEDg6zQZx1pLkqLq4Be', 'mp4', 'LINK', null);
 
-insert into question(id, text, content_id, correct_answer) values(nextval('question_sequence'), 'Что это за памятник? (видео файл)', @v_content_file_id, @v_correct_answer_id);
-insert into question(id, text, content_id, correct_answer) values(nextval('question_sequence'), 'Что это за памятник? (ссылка)', @v_content_link_id, @v_correct_answer_id);
+
+SET @v_question_1_id = nextval('question_sequence');
+SET @v_question_2_id = nextval('question_sequence');
+insert into question(id, text, content_id, correct_answer) values(@v_question_1_id, 'Что это за памятник? (видео файл)', @v_content_file_id, @v_correct_answer_id);
+insert into question(id, text, content_id, correct_answer) values(@v_question_2_id, 'Что это за памятник? (ссылка)', @v_content_link_id, @v_correct_answer_id);
+
+insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_correct_answer_id);
+insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_1_id);
+insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_2_id);
+insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_3_id);
+
+insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_2_id);
+insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_1_id);
+insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_3_id);
+insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_correct_answer_id);
