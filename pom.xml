@@ -14,8 +14,8 @@
   </parent>
   
   <modules>
-	<module>pa-quest-server</module>
     <module>pa-quest-client</module>
+	<module>pa-quest-server</module>
   </modules>
 
   </project>

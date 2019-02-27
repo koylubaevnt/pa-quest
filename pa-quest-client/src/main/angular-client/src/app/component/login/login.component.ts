@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { LogService } from 'src/app/service/log.service';
 import { Router } from '@angular/router';
+import { UserQuestService } from 'src/app/service/user-quest.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
       private authService: AuthenticationService, 
       private tokenStorageService: TokenStorageService, 
       private router: Router,
-      private logService: LogService) { }
+      private logService: LogService,
+      private userQuestSrvice: UserQuestService) { }
 
   ngOnInit() {
     if (this.tokenStorageService.getToken()) {
@@ -51,7 +53,7 @@ export class LoginComponent implements OnInit {
         this.roles = this.tokenStorageService.getRoles();
         
         this.authService.loggedIn.next(true)
-
+        this.userQuestSrvice.isFinishQuest().subscribe(_ => _);
         if (!this.authService.redirectUrl) {
           this.router.navigate(['/home']);
         } else {

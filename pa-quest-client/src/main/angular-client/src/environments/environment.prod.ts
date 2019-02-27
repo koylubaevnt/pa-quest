@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  url: '/pa-quest/api'
+  url: '/pa-quest/api',
+  baseHref: '/pa-quest'
 };

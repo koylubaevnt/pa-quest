@@ -19,12 +19,12 @@
             <plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>LATEST_VERSION</version>
+				<version>1.7.5</version>
 				
 				<configuration>
 					<nodeVersion>v8.11.3</nodeVersion>
 					<npmVersion>6.3.0</npmVersion>
-					<workingDirectory>src/main/web/</workingDirectory>
+					<workingDirectory>src/main/angular-client/</workingDirectory>
 				</configuration>
 				
 				<executions>
@@ -43,25 +43,26 @@
 						</goals>
 					</execution>
 					
-					<execution>
+					<!--<execution>
 						<id>npm run build</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
 							<arguments>run build</arguments>
+
 						</configuration>
-					</execution>
+					</execution>-->
 
 					<execution>
-						<id>prod</id>
+						<id>npm run-script prod</id>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run-script build</arguments>
+							<arguments>run-script prod</arguments>
 						</configuration>
-						<phase>generate-resources</phase>
 					</execution>
 					
 				</executions>

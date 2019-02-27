@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 export class NavBarComponent implements OnInit {
   
   private roles: string[] = [];
-  private authorized: boolean = false;
-  private finished: Boolean;
+  authorized: boolean = false;
+  finished: Boolean;
 
   constructor(private tokenStorageService: TokenStorageService, private authService: AuthenticationService, private userQuesrService: UserQuestService) { }
 

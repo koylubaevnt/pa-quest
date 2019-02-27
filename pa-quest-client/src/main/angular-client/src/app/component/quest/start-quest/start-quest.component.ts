@@ -19,6 +19,8 @@ export class StartQuestComponent implements OnInit {
   questFinished: boolean = false;
   userQuest: UserQuest;
   currentQuestion: UserQuestion;
+  currentIndex: number = 1;
+  countQuestion: number;
  // previousQuestionId: number;
   
   question: String;
@@ -77,19 +79,24 @@ export class StartQuestComponent implements OnInit {
           this.currentQuestion = undefined;
           this.question = undefined;
           this.videoUrl = undefined;
+          this.currentIndex = undefined;
+          this.countQuestion = undefined;
         }    
       } else {
+        let idx: number = 0;
         for (let userQuestion of userQuest.questions) {
           if (!userQuestion.answered) {
             if (this.currentQuestion.id === userQuestion.id) {
               this.currentQuestion.numberOfAttempts = userQuestion.numberOfAttempts;
             } else {
+              this.currentIndex = idx + 1;
               this.currentQuestion = userQuestion;
               this.question = userQuestion.question.text;
               this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://youtube.com/embed/' + userQuestion.question.youtubeVideoId);  
             }
             break;
           }
+          idx++;
         }
         
       }
@@ -97,6 +104,8 @@ export class StartQuestComponent implements OnInit {
     } else {
       // новый квест
       this.userQuest = userQuest;
+      
+      this.countQuestion = userQuest.questions.length;
       this.logService.debug(`Получили квест ${userQuest.active} - ${this.userQuest.active}`, this.userQuest);
       if (!this.userQuest.active) {
         this.logService.debug(`Квест был закончен...`);
@@ -104,15 +113,19 @@ export class StartQuestComponent implements OnInit {
         this.currentQuestion = undefined;
         this.question = undefined;
         this.videoUrl = undefined;
-        //this.previousQuestionId = undefined;
+        this.currentIndex = undefined;
+        this.countQuestion = undefined;
       } else {
+        let idx: number = 0;
         for (let userQuestion of userQuest.questions) {
           if (!userQuestion.answered) {
+            this.currentIndex = idx + 1;
             this.currentQuestion = userQuestion;
             this.question = this.currentQuestion.question.text;
             this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://youtube.com/embed/' + this.currentQuestion.question.youtubeVideoId);
             break;
           }
+          idx++;
         }
         //this.previousQuestionId = this.currentQuestion.id;
       }
