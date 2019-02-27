@@ -3,8 +3,11 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule } from '@angular/material';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +23,7 @@ import { RussianPaginator } from './common/paginator/russian-paginator';
 import { FooterComponent } from './component/footer/footer.component';
 import { StartQuestComponent } from './component/quest/start-quest/start-quest.component';
 import { CongratulationComponent } from './component/congratulation/congratulation.component';
+import { QuestionsComponent } from './component/quest/questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,7 @@ import { CongratulationComponent } from './component/congratulation/congratulati
     FooterComponent,
     StartQuestComponent,
     CongratulationComponent,
+    QuestionsComponent,
 
   ],
   imports: [
@@ -50,7 +55,9 @@ import { CongratulationComponent } from './component/congratulation/congratulati
     MatProgressSpinnerModule,
     MatCardModule,
     MatGridListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    
+    NgbModule.forRoot()
   ],
   providers: [
     httpInterceptorProviders,

@@ -3,17 +3,36 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { UserQuestService } from 'src/app/service/user-quest.service';
 import { Observable } from 'rxjs';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  styleUrls: ['./nav-bar.component.css'],
+  // animations: [
+  //   trigger('collapse', [
+  //     state('open', style({
+  //       opacity: '1',
+  //       display: 'block',
+  //       transform: 'translate3d(0, 0, 0)'
+  //     })),
+  //     state('closed', style({
+  //       opacity: '0',
+  //       display: 'none',
+  //       transform: 'translate3d(0, -100%, 0)'
+  //     })),
+  //     transition('closed => open', animate('200ms ease-in')),
+  //     transition('open => closed', animate('100ms ease-out'))
+  //   ])
+  // ]
 })
 export class NavBarComponent implements OnInit {
   
   private roles: string[] = [];
   authorized: boolean = false;
   finished: Boolean;
+  show: boolean = true;
+  // collapse: string = "closed";
 
   constructor(private tokenStorageService: TokenStorageService, private authService: AuthenticationService, private userQuesrService: UserQuestService) { }
 
@@ -55,5 +74,10 @@ export class NavBarComponent implements OnInit {
   logout() {
     this.tokenStorageService.signOut();
     window.location.reload();
+  }
+
+  toggleCollapse() {
+    this.show = !this.show;
+    //this.collapse = this.collapse == "open" ? "closed" : "open";
   }
 }

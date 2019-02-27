@@ -9,6 +9,7 @@ import { UserComponent } from './component/user/user.component';
 import { StartQuestComponent } from './component/quest/start-quest/start-quest.component';
 import { CongratulationComponent } from './component/congratulation/congratulation.component';
 import { FinishQuestGuard } from './guard/finish-quest-guard';
+import { QuestionsComponent } from './component/quest/questions/questions.component';
 
 const routes: Routes = [
 
@@ -21,6 +22,14 @@ const routes: Routes = [
     path: 'start-quest',
     component: StartQuestComponent,
     canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'questions',
+    component: QuestionsComponent,
+    canActivate: [ RoleGuard ],
+    data: { 
+      expectedRole: 'admin'
+    }
   },
   {
     path: 'congratulation',
