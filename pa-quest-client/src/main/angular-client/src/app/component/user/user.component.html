@@ -1,5 +1,7 @@
-
-  <mat-table class="mt-5" [dataSource]="dataSource">
+<div class="container content"
+fxLayout="column"
+fxLayoutAlign="center center">
+  <mat-table class="mt-5 full_width" [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Имя </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
@@ -30,6 +32,7 @@
   </mat-table> 
 
   <mat-paginator 
+    class="full_width"
     [length]="length"
     [pageSize]="pageSize"
     [pageSizeOptions]="pageSizeOptions"
@@ -39,3 +42,4 @@
 <!-- <div class="spinner-wrapper" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
 </div> -->
+</div>

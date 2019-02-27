@@ -1,4 +1,6 @@
-<div *ngIf="questFinished">
+<div class="container content" *ngIf="questFinished"
+  fxLayout="column"
+  fxLayoutAlign="center center">
   Поздравляю, Вы прошли квест.<br />
   Вы заработали просмотр поздравительного видео:<br />
   <a class="btn btn-primary" routerLink="/congratulation">Поздравлениe</a>
@@ -7,8 +9,10 @@
   <button class="btn btn-primary" (click)="startQuest">Начать квест</button>  
   
 </div>
-<div class="container main-div" *ngIf="!!currentQuestion">
-  <mat-card class="example-card center">
+<div class="container content"  *ngIf="!!currentQuestion"
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <mat-card class="full-width">
     <mat-card-header>
       <mat-card-title>{{currentIndex}} из {{countQuestion}}: {{question}}</mat-card-title>
       <mat-card-subtitle>Количество попыток: {{currentQuestion.numberOfAttempts}}</mat-card-subtitle>
@@ -17,7 +21,6 @@
       <iframe
         class="youtube-player"
         frameborder="0"
-        height = "400px"
         allow="autoplay; encrypted-media; picture-in-picture"
         [src]="videoUrl">
       </iframe>

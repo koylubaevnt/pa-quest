@@ -1,4 +1,17 @@
+.content {
+    height: 100%;
+    min-height: 550px;
+    place-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.full_width {
+    width: 100%;
+}
+
 .mat-table {
+    min-width: 400px;
     min-height: 400px;
 }
 
