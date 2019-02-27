@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "prod": "ng build --prod --base-href /pa-quest/ --deploy-url /pa-quest/",
+    "prod_bak": "ng build --prod --base-href /pa-quest/ --deploy-url /pa-quest/",
+    "prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
