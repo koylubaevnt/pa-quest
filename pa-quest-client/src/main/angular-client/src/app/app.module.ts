@@ -23,8 +23,8 @@ import { RussianPaginator } from './common/paginator/russian-paginator';
 import { FooterComponent } from './component/footer/footer.component';
 import { StartQuestComponent } from './component/quest/start-quest/start-quest.component';
 import { CongratulationComponent } from './component/congratulation/congratulation.component';
-import { QuestionsComponent } from './component/quest/questions/questions.component';
-import { QuestionInfoComponent } from './component/quest/question-info/question-info.component';
+import { QuestionListComponent } from './component/question/question-list/question-list.component';
+import { QuestionInfoComponent } from './component/question/question-info/question-info.component';
 import { SafePipe } from './common/pipes/safe.pipe';
 import { AnswerItemDialogComponent } from './component/question/answer-item-dialog/answer-item-dialog.component';
 import { AnswerSelectDialogComponent } from './component/question/answer-select-dialog/answer-select-dialog.component';
@@ -42,7 +42,7 @@ import { QuestionItemDialogComponent } from './component/question/question-item-
     FooterComponent,
     StartQuestComponent,
     CongratulationComponent,
-    QuestionsComponent,
+    QuestionListComponent,
     QuestionInfoComponent,
 
     SafePipe,

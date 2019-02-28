@@ -9,12 +9,45 @@ import { DataResponse } from '../model/data-response';
 import { QuestionForm } from '../model/question-form';
 import { Answer } from '../model/answer';
 
-const answers = [];
+const ANSWERS_DATA = [];
 for(let i = 0; i < 20; i++) {
-    answers.push({
+    ANSWERS_DATA.push({
         id: i+1,
         text: "Ответ №" + (i+1)
     })
+}
+
+const QUESTIONS_DATA = [];
+for(let i = 0; i < 20; i++) {
+    QUESTIONS_DATA.push(
+    {
+        id: i + 1,
+        text: "Что это за памятник? " + (i + 1),
+        youtubeVideoId: "Ok81Ue2mu0A",
+        correctAnswer: {
+            id: 1,
+            text: "Памятник комунистам"
+        },
+        answers: [
+        { 
+            id: 1,
+            text: "Памятник комунистам"
+        },
+        { 
+            id: 2,
+            text: "Очень интересный памятник"
+        },
+        { 
+            id: 3,
+            text: "Да хрен его знает"
+        },
+        { 
+            id: 4,
+            text: "Памятник финам"
+        }
+        ]
+    }
+    );
 }
 
 @Injectable({
@@ -40,6 +73,15 @@ export class QuestionService {
      */
     getQuestionsPadding(page: number, pageSize: number, searchString: string): Observable<any> {
         this.logService.debug(`getAnswersPadding(): Make request: ${this.questionUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`);
+        return of({
+            data: QUESTIONS_DATA,
+            totalElements: 50,
+            size: 20,
+            number: 0,
+            numberOfElements: 20}).pipe(
+                tap(resp=> this.logService.debug(`getQuestionsPadding(): url=${this.questionUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`, resp)),
+                catchError(this.handleError('getQuestionsPadding()', []))
+                );
         return this.http.get<any>(`${this.questionUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`)
             .pipe(
                 tap(_ => this.logService.debug(`getAnswersPadding(): url=${this.questionUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`)),
@@ -97,7 +139,7 @@ export class QuestionService {
         //         catchError(this.handleError('getAnswersPadding()', []))
         //     );
         return of({
-            data: answers,
+            data: ANSWERS_DATA,
             totalElements: 50,
             size: 20,
             number: 0,
@@ -114,8 +156,8 @@ export class QuestionService {
      * @param answer    Ответ
      */
     addAnswer(answer: Answer): Observable<Answer> {
-        answers.push(answer);
-        answer.id = answers.length;
+        ANSWERS_DATA.push(answer);
+        answer.id = ANSWERS_DATA.length;
         return of(answer);
 
         return this.http.post<User>(`${this.answerUrl}`, answer)

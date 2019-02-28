@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Question } from 'src/app/model/question';
 import { QuestionForm } from 'src/app/model/question-form';
 import { LogService } from 'src/app/service/log.service';
+import { QuestionService } from 'src/app/service/question.service';
+import { Question } from 'src/app/model/question';
 
 @Component({
-  selector: 'app-questions',
-  templateUrl: './questions.component.html',
-  styleUrls: ['./questions.component.css']
+  selector: 'app-question-list',
+  templateUrl: './question-list.component.html',
+  styleUrls: ['./question-list.component.css']
 })
-export class QuestionsComponent implements OnInit {
+export class QuestionListComponent implements OnInit {
 
   questions: QuestionForm[];
   search: string = "";
@@ -25,10 +26,10 @@ export class QuestionsComponent implements OnInit {
   pageEvent: PageEvent;
   totalElements: number;
 
-  constructor(private router: Router, private sanitizer: DomSanitizer, private logService: LogService) { }
+  constructor(private router: Router, private sanitizer: DomSanitizer, private logService: LogService, private questionService: QuestionService) { }
 
   ngOnInit() {
-    this.getQuestionsPaging();
+    this.getQuestionsPaging(null);
   }
 
   onSelectQuestion(question: QuestionForm): void {
@@ -43,7 +44,7 @@ export class QuestionsComponent implements OnInit {
       this.search = "";
     }
     this.page = 0
-    this.getQuestionsPaging();
+    this.getQuestionsPaging(null);
   }
 
   clearSearch(): void {
@@ -54,7 +55,7 @@ export class QuestionsComponent implements OnInit {
   setPage(event: PageEvent) {
     this.pageEvent = event;
     this.pageIndex = event.pageIndex;
-    this.getQuestionsPaging();
+    this.getQuestionsPaging(null);
   }
 
   getYoutubeUrl(videoId: string) {
@@ -73,47 +74,25 @@ export class QuestionsComponent implements OnInit {
   deleteQuestion(questionId: number) {
     console.log('delete: ' + questionId);
   }
-  
-  getQuestionPaging(event: any) {
-    this.getQuestionsPaging();
-  }
 
-  private getQuestionsPaging() {
-    this.mokup();
-  }
-
-  private mokup() {
-    this.questions = [];
-    for(let i = 0; i < this.pageSize; i++) {
-      this.questions.push(
-        {
-          id: i + 1,
-          text: "Что это за памятник? " + (i + 1),
-          youtubeVideoId: "Ok81Ue2mu0A",
-          correctAnswer: {
-              id: 1,
-              text: "Памятник комунистам"
-          },
-          answers: [
-            { 
-              id: 1,
-              text: "Памятник комунистам"
-            },
-            { 
-              id: 2,
-              text: "Очень интересный памятник"
-            },
-            { 
-              id: 3,
-              text: "Да хрен его знает"
-            },
-            { 
-              id: 4,
-              text: "Памятник финам"
-            }
-          ]
+  getQuestionsPaging(activeQuestion: QuestionForm) {
+    this.questionService.getQuestionsPadding(this.page, this.pageSize, this.search)
+      .subscribe(result => {
+        this.questions = result['data'];
+        this.totalElements = result['totalElements'];
+        this.pageIndex = result['number'];
+      },
+      
+      error => {},
+      () => {
+        if (this.questions) {
+          if (!activeQuestion) {
+            this.onSelectQuestion(this.questions[0]);
+          } else {
+            this.onSelectQuestion(activeQuestion);
+          }
         }
-      );
-    }
+      })
   }
+
 }
