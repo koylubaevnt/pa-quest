@@ -106,7 +106,7 @@ export class LogEntry {
       }
       ret += "Type: " + LogLevel[this.level];
       ret += " - Message: " + this.message;
-      if (this.extraInfo.length) {
+      if (this.extraInfo && this.extraInfo.length) {
         ret += " - Extra Info: "
           + this.formatParams(this.extraInfo);
       }

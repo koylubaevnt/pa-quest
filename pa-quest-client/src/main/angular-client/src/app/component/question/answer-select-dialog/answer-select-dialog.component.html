@@ -1,0 +1,34 @@
+<div fxLayout="column" fxFill>
+  <h2 mat-dialog-title fxFlex=5>{{titleDialog}}</h2>
+  <div mat-dialog-content fxFlex=90 fxLayout="column">
+    <div fxLayout="row">
+      <mat-form-field fxFill>
+        <input matInput placeholder="Поиск"[(ngModel)]="searchValue" (keyup.enter)="searchAnswers()">
+        <button matSuffix mat-icon-button (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button matSuffix mat-stroked-button (click)="searchAnswers()">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button matSuffix mat-stroked-button (click)="addAnswer()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-form-field>  
+    </div>
+    <div>
+      <mat-grid-list cols="5" gutterSize="10px" rowHeight="2:1">
+        <mat-grid-tile *ngFor="let answer of answers" class="mat-grid-tile-item" (click)="onSelectAnswer(answer)">
+          <div fxFlex fxLayoutAlign="center center">
+            <span>{{answer.text}}</span>
+          </div>    
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div>
+      <mat-paginator [length]="totalElements" [pageIndex]="pageIndex" [pageSize]="pageSize" showFirstLastButtons (page)="setPage($event)"></mat-paginator>
+    </div>
+  </div>
+  <div mat-dialog-actions fxFlex=5 fxLayoutAlign="center">
+    <button mat-flat-button (click)="onCancel()">Отмена</button>
+  </div>
+</div>

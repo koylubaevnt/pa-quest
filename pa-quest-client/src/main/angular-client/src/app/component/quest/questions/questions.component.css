@@ -1,0 +1,23 @@
+.content {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.left-panel {
+    margin-right: 50px;
+}
+
+.right-panel {
+    margin-left: 20px;
+}
+
+.question-list {
+    height: 475px;
+    overflow-y: auto;
+}
+
+.mat-paginator {
+    background: transparent !important;
+}

@@ -1,0 +1,88 @@
+<div class="content" >
+  <div *ngIf="question; else noSelectedQuestion" fxLayout="column" fxFill>
+     <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="10">
+      <h2 *ngIf="question.id">{{question.text}}</h2>
+      <h2 *ngIf="!question.id">Новый товар</h2>
+    </div>
+
+    <mat-card>
+      <div fxLayout="row" fxLayout=" center">
+        <mat-card-title fxFlex></mat-card-title>
+        <button mat-icon-button (click)="deleteDialog(question)">
+          <mat-icon>delete</mat-icon>
+        </button> 
+      </div>
+
+      <mat-card-content>
+        <div fxLayout="row" mat-dialog-content>
+          <div fxLayout="column" fxFlex="60">
+            <mat-form-field>
+              <input matInput placeholder="Вопрос" [(ngModel)]="questionForm.text"
+                (ngModelChange)="changeVal(true)" required>
+            </mat-form-field>
+            <mat-form-field>
+              <!-- <input matInput placeholder="Ссылка на видео Youtube" [(ngModel)]="questionForm.youtubeVideoUrl"
+                (ngModelChange)="changeVal(true)" required> -->
+              <input matInput placeholder="Ссылка на видео Youtube" [ngModel]="questionForm.youtubeVideoUrl" (blur)="changeYoutubeLink($event.target.value)" 
+                required>
+              <mat-hint>Идентификатор Youtube видео: {{questionForm.youtubeVideoId}}</mat-hint>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <input matInput hidden> <!--hack for work mat-form-ontrol-->
+                <div fxLayout="column">
+                  <button mat-stroked-button class="answer-select" (click)="selectCorrectAnswer()">
+                    <div fxFlex fxLayoutAlign="space-between center">
+                      <span *ngIf="questionForm.correctAnswer">{{questionForm.correctAnswer.text}}</span>
+                      <span *ngIf="!questionForm.correctAnswer">Выберите правильный ответ *</span>
+                      <mat-icon>edit</mat-icon>
+                    </div>
+                  </button>
+                </div>   
+                <mat-hint>Правильный ответ</mat-hint>   
+            </mat-form-field>
+            
+            <mat-form-field *ngFor="let index of [0, 1, 2, 3]">
+                <input matInput hidden> <!--hack for work mat-form-ontrol-->
+                <div fxLayout="column">
+                  <button mat-stroked-button class="answer-select" (click)="selectAnswer(index)">
+                    <div fxFlex fxLayoutAlign="space-between center">
+                      <span *ngIf="questionForm.answers && questionForm.answers[index]">{{questionForm.answers[index].text}}</span>
+                      <span *ngIf="!questionForm.answers || !questionForm.answers[index]">Выберите ответ №{{index + 1}} *</span>
+                      <mat-icon>edit</mat-icon>
+                    </div>
+                  </button>
+                </div>   
+                <mat-hint>Возможный ответ № {{index + 1}}</mat-hint>   
+            </mat-form-field>
+
+            <!-- <mat-form-field>
+              <input matInput placeholder="Вопрос" [(ngModel)]="questionForm.text"
+                (ngModelChange)="changeVal(true)" required>
+            </mat-form-field> -->
+
+            <div fxLayout="row">
+              <button *ngIf="changed" mat-flat-button (click)="save()">Сохранить</button>
+              <button *ngIf="changed" mat-flat-button (click)="cancel()">Отменить</button>
+            </div>
+
+          </div>
+          <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">
+              <iframe
+                *ngIf="questionForm.youtubeVideoUrl"
+                class="youtube"
+                frameborder="0"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                [src]="questionForm.youtubeVideoUrl | safe">
+              </iframe>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <ng-template #noSelectedQuestion>
+    <h2>Не выбран вопрос</h2>
+  </ng-template>
+</div>

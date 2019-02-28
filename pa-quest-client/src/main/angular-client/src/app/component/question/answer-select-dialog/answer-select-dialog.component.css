@@ -1,0 +1,9 @@
+mat-grid-tile {
+    border: 1px solid grey;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+mat-grid-tile:hover {
+    border-color: rgb(108, 139, 226);
+}

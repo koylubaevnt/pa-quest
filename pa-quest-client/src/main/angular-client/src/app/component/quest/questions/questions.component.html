@@ -1,3 +1,44 @@
-<p>
-  questions works!
-</p>
+<div class="content" 
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <div fxLayout="row" fxFill>
+    <div fxLayout="column" fxFlex="40" class="left-panel">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Вопросы</h2>
+        <button mat-stroked-button (click)="createQuestion()">
+          <mat-icon>add</mat-icon>
+          Добавить
+        </button>
+      </div>
+      
+      <div *ngIf="questions" fxLayout="row">
+        <mat-form-field fxFill>
+          <input matInput placeholder="Поиск"[(ngModel)]="searchValue" (keyup.enter)="searchQuestions()">
+          <button matSuffix mat-icon-button (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <button matSuffix mat-stroked-button (click)="searchQuestions()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>  
+      </div>
+
+      <div *ngIf="questions" class="question-list">
+        <mat-nav-list *ngFor="let question of questions">
+          <mat-list-item (click)="onSelectQuestion(question)" [ngClass]="{ 'mat-list-item-selected': selectedQuestion && question.id === selectedQuestion.id }">
+            <span>{{question.text}}</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-nav-list>
+      </div>
+      <div>
+        <mat-paginator [length]="totalElements" [pageIndex]="pageIndex" [pageSize]="pageSize" showFirstLastButton hidePageSize (page)="setPage($event)">
+        </mat-paginator>
+      </div>
+    </div> 
+    
+    <div fxFlex="60" class="right-panel">
+      <app-question-info [question] = "selectedQuestion" (refreshQuestions) = "getQuestionPaging($event)"></app-question-info>
+    </div>
+  </div>
+</div>
