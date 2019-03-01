@@ -41,17 +41,32 @@ export class UserItemDialogComponent implements OnInit {
 
   onSave(): void {
 
-    if (this.admin && !this.user.role.includes('admin')) {
-      this.user.role.push('admin');
+    if (!this.user.roles) {
+      this.user.roles = ['ROLE_USER']  
     }
+
+    if (this.admin && !this.user.roles.includes('ROLE_ADMIN')) {
+      this.user.roles.push('ROLE_ADMIN');
+    } else if (!this.admin && this.user.roles.includes('ROLE_ADMIN')) {
+      this.user.roles.splice(this.user.roles.indexOf('ROLE_ADMIN'), 1);
+    }
+
+    // for(let i = 0; i < this.user.roles.length; i++) {
+    //   let role = 'ROLE_' + this.user.roles[i].toUpperCase().replace('ROLE_', '');
+    //   this.user.roles[i] = role;
+    // }
 
     if (this.typeDialog === DialogType.CREATE) {
       this.userService.addUser(this.user).subscribe(result => {
-        this.dialogRef.close(result);
+        if (result) {
+          this.dialogRef.close(result);
+        }
       });
     } else if (this.typeDialog === DialogType.UPDATE) {
       this.userService.updateUser(this.user).subscribe(result => {
-        this.dialogRef.close(result);
+        if (result) {
+          this.dialogRef.close(result);
+        }
       });
     } else if (this.typeDialog === DialogType.DELETE) {
       this.userService.deleteUser(this.user.id).subscribe(result => {
@@ -75,17 +90,17 @@ export class UserItemDialogComponent implements OnInit {
     //this.user.password = this.data.user.password;
     //this.user.passwordConfirm = this.data.user.passwordConfirm;
     this.user.name = this.data.user.name;
-    if (!this.data.user.role || this.data.user.role.length === 0) {
-      this.user.role = [ "user" ]
+    if (!this.data.user.roles || this.data.user.roles.length === 0) {
+      this.user.roles = [ "ROLE_USER" ]
     } else {
-      this.user.role = [];
-      for (let r of this.data.user.role) {
-        this.user.role.push(r);
+      this.user.roles = [];
+      for (let r of this.data.user.roles) {
+        this.user.roles.push(r);
       }
-      if (!this.user.role.includes('user')) {
-        this.user.role.push('user');
+      if (!this.user.roles.includes('ROLE_USER')) {
+        this.user.roles.push('ROLE_USER');
       }
-      if (!this.user.role.includes('admin')) {
+      if (this.user.roles.includes('ROLE_ADMIN')) {
         this.admin = true;
       }
     }

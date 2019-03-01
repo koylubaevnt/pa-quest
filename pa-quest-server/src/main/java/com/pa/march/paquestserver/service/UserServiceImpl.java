@@ -3,14 +3,12 @@ package com.pa.march.paquestserver.service;
 import com.pa.march.paquestserver.domain.Role;
 import com.pa.march.paquestserver.domain.RoleName;
 import com.pa.march.paquestserver.domain.User;
+import com.pa.march.paquestserver.domain.UserQuest;
 import com.pa.march.paquestserver.exception.QuestException;
 import com.pa.march.paquestserver.message.resource.RoleResource;
 import com.pa.march.paquestserver.message.resource.UserResource;
 import com.pa.march.paquestserver.message.response.BaseResponse;
-import com.pa.march.paquestserver.repository.RoleRepository;
-import com.pa.march.paquestserver.repository.SearchOperation;
-import com.pa.march.paquestserver.repository.UserRepository;
-import com.pa.march.paquestserver.repository.UserSpecificationsBuilder;
+import com.pa.march.paquestserver.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserQuestRepository userQuestRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -123,6 +124,11 @@ public class UserServiceImpl implements UserService {
                 response.setMessage("Не введен логин пользователя");
                 throw new Exception();
             }
+            if (userResource.getEmail() == null || userResource.getEmail().trim().isEmpty()) {
+                response.setCode(500);
+                response.setMessage("Не введена почта пользователя");
+                throw new Exception();
+            }
             if (userResource.getPassword() == null || userResource.getPassword().trim().isEmpty()) {
                 response.setCode(500);
                 response.setMessage("Не введен пароль");
@@ -138,14 +144,14 @@ public class UserServiceImpl implements UserService {
                 response.setMessage("Пароли не совпадают");
                 throw new Exception();
             }
-            User result = userRepository.findByUsername(userResource.getUsername())
+            User result = userRepository.findByUsername(userResource.getUsername().trim())
                     .orElse(null);
             if (result != null) {
                 response.setCode(500);
                 response.setMessage("Пользователь с таким логином уже существует");
                 throw new Exception();
             }
-            result = userRepository.findByEmail(userResource.getEmail());
+            result = userRepository.findByEmail(userResource.getEmail().trim());
             if (result != null) {
                 response.setCode(500);
                 response.setMessage("Пользователь с таким email уже существует");
@@ -178,11 +184,14 @@ public class UserServiceImpl implements UserService {
         BaseResponse response = new BaseResponse();
         try {
             // TODO: Подумать на что можно заменить проверки
-            User result = userRepository.findByEmail(userResource.getEmail());
-            if (result != null && !result.getId().equals(userResource.getId())) {
-                response.setCode(500);
-                response.setMessage("Пользователь с таким email уже существует");
-                throw new Exception();
+            User result;
+            if(userResource.getEmail() != null) {
+                result = userRepository.findByEmail(userResource.getEmail().trim());
+                if (result != null && !result.getId().equals(userResource.getId())) {
+                    response.setCode(500);
+                    response.setMessage("Пользователь с таким email уже существует");
+                    throw new Exception();
+                }
             }
             result = userRepository.getOne(userResource.getId());
             if (result == null) {
@@ -196,7 +205,7 @@ public class UserServiceImpl implements UserService {
                 throw new Exception();
             }
             if (userResource.getPassword() != null && userResource.getPasswordConfirm() != null &&
-                    userResource.getPassword().trim().isEmpty()&& userResource.getPasswordConfirm().trim().isEmpty()) {
+                    !userResource.getPassword().trim().isEmpty() && !userResource.getPasswordConfirm().trim().isEmpty()) {
                 if (!userResource.getPassword().equals(userResource.getPasswordConfirm())) {
                     response.setCode(500);
                     response.setMessage("Пароли не совпадают");
@@ -229,12 +238,13 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userRepository.findById(userId).orElse(null);
             if (user != null) {
-                /*List<UserQuest> quests = questRepository.findByUser(userId);
-                if (!quests.isEmpty()) {
+                Long countUserQuests = userQuestRepository.countByUserId(userId);
+                if (countUserQuests > 0) {
                     response.setCode(500);
                     response.setMessage("Есть квесты у данного пользователя");
                     throw new Exception();
-                }*/
+                }
+
                 LOG.debug("deleteUser(): id = {}", userId);
                 userRepository.deleteById(userId);
             }

@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule, MatFormFieldModule, MatInputModule, MatListModule, MatDialogModule, MatCheckboxModule } from '@angular/material';
+import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule, MatFormFieldModule, MatInputModule, MatListModule, MatDialogModule, MatCheckboxModule, MatSnackBarModule } from '@angular/material';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
 
-import { httpInterceptorProviders } from './interceptor/auth-interceptor';
+import { httpInterceptorProviders, AuthInterceptor } from './interceptor/auth-interceptor';
 import { HomeComponent } from './component/home/home.component';
 import { RegisterComponent } from './component/register/register.component';
 import { LoaderComponent } from './component/loader/loader.component';
@@ -30,6 +30,7 @@ import { AnswerItemDialogComponent } from './component/question/answer-item-dial
 import { AnswerSelectDialogComponent } from './component/question/answer-select-dialog/answer-select-dialog.component';
 import { QuestionItemDialogComponent } from './component/question/question-item-dialog/question-item-dialog.component';
 import { UserItemDialogComponent } from './component/user/user-item-dialog/user-item-dialog.component';
+import { InfoBarComponent } from './component/info-bar/info-bar.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,9 @@ import { UserItemDialogComponent } from './component/user/user-item-dialog/user-
 
     QuestionItemDialogComponent,
 
-    UserItemDialogComponent
+    UserItemDialogComponent,
+
+    InfoBarComponent
 
   ],
   imports: [
@@ -77,6 +80,7 @@ import { UserItemDialogComponent } from './component/user/user-item-dialog/user-
     MatListModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatSnackBarModule,
 
     FlexLayoutModule,
     
@@ -94,7 +98,8 @@ import { UserItemDialogComponent } from './component/user/user-item-dialog/user-
     {
       provide: MatPaginatorIntl,
       useClass: RussianPaginator
-    }
+    },
+    InfoBarComponent
   ],
   bootstrap: [AppComponent]
 })

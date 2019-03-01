@@ -20,8 +20,8 @@ export class UserComponent implements OnInit {
 
   // MatPaginator Inputs
   length = 100;
-  pageSize = 2;
-  pageSizeOptions: number[] = [2, 5, 10, 20, 30, 40, 50];
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 20, 30, 40, 50];
   // MatPaginator Output
   pageEvent: PageEvent;
 
@@ -68,7 +68,9 @@ export class UserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.logService.debug(`Edit user result: ${result}`)  
+      if (result) {
+        this.loadUsersPage();
+      }
     });
   }
   
@@ -84,7 +86,9 @@ export class UserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.logService.debug(`Edit user result: ${result}`)  
+      if (result) {
+        this.loadUsersPage();
+      }
     });
   }
   
@@ -100,8 +104,11 @@ export class UserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.logService.debug(`Delete user result: ${result}`)  
-    });  }
+      if (result) {
+        this.loadUsersPage();
+      }
+    });  
+  }
 
   // private makeRequest(page: number, pageSize: number, search: string) {
   //   this.userService.getUsersPadding(page, pageSize, search)

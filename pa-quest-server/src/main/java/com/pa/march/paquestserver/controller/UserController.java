@@ -1,5 +1,6 @@
 package com.pa.march.paquestserver.controller;
 
+import com.pa.march.paquestserver.exception.QuestException;
 import com.pa.march.paquestserver.message.resource.RoleResource;
 import com.pa.march.paquestserver.message.resource.UserResource;
 import com.pa.march.paquestserver.message.response.BaseResponse;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,8 +93,9 @@ public class UserController {
      * @param userResource  Пользователь
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping()
     ResponseEntity<DataResponse<UserResource>> addUser(HttpServletRequest request, @RequestBody UserResource userResource) {
+        // TODO: добавить валидацию!!! @Validated и обработку на клиенте
         LOG.info("POST: api/user, RequestBody = {}", userResource);
         try {
             UserResource resource = userService.addUser(userResource);
@@ -100,6 +103,10 @@ public class UserController {
             response.setData(resource);
             ResponseEntity<DataResponse<UserResource>> entity = new ResponseEntity<>(response, HttpStatus.OK);
             return entity;
+        } catch (QuestException e) {
+            LOG.error("e={}, e.getMessage={}, e.getStackTrace={}", e, e.getMessage(), Arrays.toString(e.getStackTrace()));
+            ResponseEntity<DataResponse<UserResource>> result = new ResponseEntity<>(new DataResponse<>(null, e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            return result;
         } catch (Exception e) {
             LOG.error("e={}, e.getMessage={}, e.getStackTrace={}", e, e.getMessage(), Arrays.toString(e.getStackTrace()));
             ResponseEntity<DataResponse<UserResource>> result = new ResponseEntity<>(new DataResponse<>(null, 500, e.getMessage()), HttpStatus.BAD_REQUEST);
@@ -113,7 +120,7 @@ public class UserController {
      * @param userResource  Пользователь
      * @return
      */
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping()
     ResponseEntity<DataResponse<UserResource>> updateGood(HttpServletRequest request, @RequestBody UserResource userResource) {
         LOG.info("PUT /user, RequestBody = {}", userResource);
         try {
@@ -135,7 +142,7 @@ public class UserController {
      * @param userId    Код пользователя
      * @return
      */
-    @RequestMapping(name = "/{userId}", method = RequestMethod.DELETE)
+    @DeleteMapping("{userId}")
     ResponseEntity<BaseResponse> deleteGood(HttpServletRequest request, @PathVariable Long userId) {
         LOG.info("DELETE: /user/{}", userId);
         try {

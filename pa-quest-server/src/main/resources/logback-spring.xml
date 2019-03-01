@@ -38,6 +38,12 @@
         <appender-ref ref="Console" />
     </root>
 
+    <!-- LOG Spring at DEBUG level -->
+    <logger name="org.springframework" level="info" additivity="false">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
     <!-- LOG Hibernate at DEBUG level -->
     <logger name="org.hibernate" level="info" additivity="false">
         <appender-ref ref="RollingFile" />

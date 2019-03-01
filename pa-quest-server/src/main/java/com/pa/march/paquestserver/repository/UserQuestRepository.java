@@ -12,4 +12,6 @@ public interface UserQuestRepository extends JpaRepository<UserQuest, Long> {
     List<UserQuest> findByIdAndUserId(Long userQuestId, Long userId);
 
     Long countByUserIdAndActive(Long userId, Boolean active);
+
+    Long countByUserId(Long userId);
 }

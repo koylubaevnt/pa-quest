@@ -31,12 +31,12 @@ public class UserResource extends BaseResource {
 
     private Set<String> roles;
 
-    @NotBlank
-    @Size(min = 6, max = 40)
+//    @NotBlank
+//    @Size(min = 6, max = 40)
     private String password;
 
-    @NotBlank
-    @Size(min = 6, max = 40)
+//    @NotBlank
+//    @Size(min = 6, max = 40)
     private String passwordConfirm;
 
 }

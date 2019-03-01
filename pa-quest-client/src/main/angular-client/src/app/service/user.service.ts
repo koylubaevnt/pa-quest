@@ -80,7 +80,6 @@ export class UserService {
     public handleError<T>(operation='operation', result?: T) {
         return (error: any): Observable<T> => {
             this.logService.error(`handleError(): operation=${operation}, error.message=${error.message}`, error);
-
             return of(result as T);
         }
     }

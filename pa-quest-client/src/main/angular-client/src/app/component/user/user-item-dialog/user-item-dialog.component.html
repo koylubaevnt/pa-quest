@@ -11,10 +11,10 @@
       <input id="email" type="email" matInput placeholder="Почта" [(ngModel)]="user.email" required [disabled]="!editable">
     </mat-form-field>
     <mat-form-field *ngIf="needPasswordInput()">
-      <input id="password" type="password" matInput placeholder="Пароль" (ngModel)="user.password" required [disabled]="!editable">
+      <input id="password" type="password" matInput placeholder="Пароль" [(ngModel)]="user.password" required [disabled]="!editable">
     </mat-form-field>
     <mat-form-field *ngIf="needPasswordInput()" >
-      <input id="passwordConfirm" type="password" matInput placeholder="Подтверждение пароля" (ngModel)="user.passwordConfirm" required [disabled]="!editable">
+      <input id="passwordConfirm" type="password" matInput placeholder="Подтверждение пароля" [(ngModel)]="user.passwordConfirm" required [disabled]="!editable">
     </mat-form-field>
     
     <mat-checkbox [(ngModel)]="admin" [disabled]="!editable">Администратор</mat-checkbox>

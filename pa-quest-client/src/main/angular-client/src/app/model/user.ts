@@ -1,13 +1,13 @@
 
 export class User {
     
-    role: string[];
+    roles: string[];
     id: number;
     name: string;
-    public username: string;
-    public email: string;
-    public password: string;
-    public passwordConfirm: string;
+    username: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
     
     constructor() {
 
