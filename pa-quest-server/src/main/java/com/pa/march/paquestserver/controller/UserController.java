@@ -66,28 +66,6 @@ public class UserController {
     }
 
     /**
-     * Получить пользователя по идентификатору
-     * @param request
-     * @param userId  Идентификатор пользователя
-     * @return
-     */
-//    @RequestMapping(name = "/{id}", method = RequestMethod.GET)
-//    ResponseEntity<DataResponse<UserResource>> findUserById(HttpServletRequest request, @PathVariable @NotNull @NotEmpty Long userId) {
-//        LOG.info("GET: api/user/{}", userId);
-//        try {
-//            UserResource resource = userService.findUserById(userId);
-//            DataResponse<UserResource> response = new DataResponse<>();
-//            response.setData(resource);
-//            ResponseEntity<DataResponse<UserResource>> entity = new ResponseEntity<>(response, HttpStatus.OK);
-//            return entity;
-//        } catch (Exception e) {
-//            LOG.error("e={}, e.getMessage={}, e.getStackTrace={}", e, e.getMessage(), Arrays.toString(e.getStackTrace()));
-//            ResponseEntity<DataResponse<UserResource>> result = new ResponseEntity<>(new DataResponse<>(null, 500, e.getMessage()), HttpStatus.BAD_REQUEST);
-//            return result;
-//        }
-//    }
-
-    /**
      * Добавление пользователя
      * @param request
      * @param userResource  Пользователь
@@ -121,8 +99,8 @@ public class UserController {
      * @return
      */
     @PutMapping()
-    ResponseEntity<DataResponse<UserResource>> updateGood(HttpServletRequest request, @RequestBody UserResource userResource) {
-        LOG.info("PUT /user, RequestBody = {}", userResource);
+    ResponseEntity<DataResponse<UserResource>> updateUser(HttpServletRequest request, @RequestBody UserResource userResource) {
+        LOG.info("PUT /api/user, RequestBody = {}", userResource);
         try {
             UserResource resource = userService.updateUser(userResource);
             DataResponse<UserResource> response = new DataResponse<>();
@@ -143,8 +121,8 @@ public class UserController {
      * @return
      */
     @DeleteMapping("{userId}")
-    ResponseEntity<BaseResponse> deleteGood(HttpServletRequest request, @PathVariable Long userId) {
-        LOG.info("DELETE: /user/{}", userId);
+    ResponseEntity<BaseResponse> deleteUser(HttpServletRequest request, @PathVariable Long userId) {
+        LOG.info("DELETE: /api/user/{}", userId);
         try {
             userService.deleteUser(userId);
             ResponseEntity<BaseResponse> entity = new ResponseEntity<>(new BaseResponse(), HttpStatus.OK);
@@ -163,7 +141,7 @@ public class UserController {
      */
     @GetMapping("/role")
     public ResponseEntity<DataResponse<List<RoleResource>>> getRoles(HttpServletRequest request) {
-        LOG.debug("/user/role");
+        LOG.debug("GET: /api/user/role");
         try {
             List<RoleResource> resource = userService.findRoles();
             DataResponse<List<RoleResource>> response = new DataResponse<>();

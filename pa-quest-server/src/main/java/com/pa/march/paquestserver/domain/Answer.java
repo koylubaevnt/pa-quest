@@ -19,6 +19,8 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(of = {"id"})
 public class Answer {
 
+    public static final String FIELD_TEXT = "text";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_id")
     @SequenceGenerator(name = "answer_id", sequenceName = "answer_sequence", allocationSize = 1)

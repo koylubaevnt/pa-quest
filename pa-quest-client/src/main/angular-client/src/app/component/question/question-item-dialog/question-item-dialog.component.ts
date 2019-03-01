@@ -36,7 +36,9 @@ export class QuestionItemDialogComponent implements OnInit {
   onSave(): void {
     if (this.typeDialog === DialogType.DELETE) {
       this.questionService.deleteQuestion(this.questionForm.id).subscribe(response => {
-        this.dialogRef.close(response);
+        if (response) {
+          this.dialogRef.close(response);
+        }
       });
     }
   }

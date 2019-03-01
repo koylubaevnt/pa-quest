@@ -2,7 +2,7 @@
   <div *ngIf="question; else noSelectedQuestion" fxLayout="column" fxFill>
      <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="10">
       <h2 *ngIf="question.id">{{question.text}}</h2>
-      <h2 *ngIf="!question.id">Новый товар</h2>
+      <h2 *ngIf="!question.id">Новый вопрос</h2>
     </div>
 
     <mat-card>

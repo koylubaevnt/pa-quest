@@ -23,6 +23,8 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id"})
 public class Question {
 
+    public static final String FIELD_TEXT = "text";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_question_id")
     @SequenceGenerator(name = "gen_question_id", sequenceName = "question_sequence", allocationSize = 1)

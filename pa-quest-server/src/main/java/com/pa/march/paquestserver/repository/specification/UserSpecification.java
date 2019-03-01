@@ -1,6 +1,8 @@
-package com.pa.march.paquestserver.repository;
+package com.pa.march.paquestserver.repository.specification;
 
 import com.pa.march.paquestserver.domain.User;
+import com.pa.march.paquestserver.repository.SearchCriteria;
+import com.pa.march.paquestserver.repository.SearchOperation;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

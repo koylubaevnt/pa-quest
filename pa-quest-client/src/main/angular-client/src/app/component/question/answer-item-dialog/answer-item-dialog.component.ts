@@ -33,7 +33,9 @@ export class AnswerItemDialogComponent implements OnInit {
 
   onSave(): void {
     this.questionService.addAnswer(this.answerForm).subscribe(result => {
-      this.dialogRef.close(result);
+      if (result) {
+        this.dialogRef.close(result);
+      }
     });
   }
 

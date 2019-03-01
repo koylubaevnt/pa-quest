@@ -86,16 +86,16 @@ export class QuestionInfoComponent implements OnInit, OnChanges {
       this.questionService.addQuestion(this.questionForm).subscribe(result => {
         if (result) {
           this.refreshQuestions.emit(result);
-        } else {
-          this.refreshQuestions.emit(null);
+        // } else {
+        //   this.refreshQuestions.emit(null);
         } 
       }, error => {});
     } else {
       this.questionService.updateQuestion(this.questionForm).subscribe(result => {
         if (result) {
           this.refreshQuestions.emit(result);
-        } else {
-          this.questionForm = this.copyQuestion(this.question);
+        // } else {
+        //   this.questionForm = this.copyQuestion(this.question);
         } 
       }, error => {});
     }
@@ -153,7 +153,7 @@ export class QuestionInfoComponent implements OnInit, OnChanges {
       id = id[0];
     }
     else {
-      id = url;
+      id = url[0];
     }
       return id;
   }

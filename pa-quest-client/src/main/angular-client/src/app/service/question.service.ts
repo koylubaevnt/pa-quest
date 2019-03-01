@@ -8,7 +8,7 @@ import { User } from '../model/user';
 import { DataResponse } from '../model/data-response';
 import { QuestionForm } from '../model/question-form';
 import { Answer } from '../model/answer';
-
+/*
 const ANSWERS_DATA = [];
 for(let i = 0; i < 20; i++) {
     ANSWERS_DATA.push({
@@ -48,7 +48,7 @@ for(let i = 0; i < 20; i++) {
         ]
     }
     );
-}
+}*/
 
 @Injectable({
     providedIn: 'root'
@@ -73,6 +73,7 @@ export class QuestionService {
      */
     getQuestionsPadding(page: number, pageSize: number, searchString: string): Observable<any> {
         this.logService.debug(`getAnswersPadding(): Make request: ${this.questionUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`);
+        /*
         return of({
             data: QUESTIONS_DATA,
             totalElements: 50,
@@ -82,6 +83,7 @@ export class QuestionService {
                 tap(resp=> this.logService.debug(`getQuestionsPadding(): url=${this.questionUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`, resp)),
                 catchError(this.handleError('getQuestionsPadding()', []))
                 );
+                */
         return this.http.get<any>(`${this.questionUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`)
             .pipe(
                 tap(_ => this.logService.debug(`getAnswersPadding(): url=${this.questionUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`)),
@@ -91,8 +93,9 @@ export class QuestionService {
 
     /** Добавление вопроса */
     addQuestion(questionForm: QuestionForm): Observable<QuestionForm> {
-        return this.http.post<QuestionForm>(`${this.questionUrl}`, questionForm)
+        return this.http.post<any>(`${this.questionUrl}`, questionForm)
             .pipe(
+                map((resp: DataResponse) => resp.data),
                 tap(_ => this.logService.debug(`addQuestion(): questionForm.id=${questionForm.id}`)),
                 catchError(this.handleError('addQuestion()', null))
             );
@@ -104,8 +107,9 @@ export class QuestionService {
      * @param questionForm  Вопрос 
      */
     updateQuestion(questionForm: QuestionForm): Observable<QuestionForm> {
-        return this.http.put<QuestionForm>(`${this.questionUrl}`, questionForm)
+        return this.http.put<any>(`${this.questionUrl}`, questionForm)
             .pipe(
+                map((resp: DataResponse) => resp.data),
                 tap(_ => this.logService.debug(`updateQuestion(): questionForm.id=${questionForm.id}`)),
                 catchError(this.handleError('updateQuestion()', null))
             );
@@ -117,7 +121,7 @@ export class QuestionService {
      * @param questionId    Идентификатор вопроса 
      */
     deleteQuestion(questionId: number): Observable<QuestionForm> {
-        return this.http.delete<QuestionForm>(`${this.questionUrl}`)
+        return this.http.delete<QuestionForm>(`${this.questionUrl}/${questionId}`)
         .pipe(
             tap(_ => this.logService.debug(`deleteQuestion(): id=${questionId}`)),
             catchError(this.handleError('deleteQuestion()', null))
@@ -133,11 +137,12 @@ export class QuestionService {
      */
     getAnswersPadding(page: number, pageSize: number, searchString: string): Observable<any> {
         this.logService.debug(`getAnswersPadding(): Make request: ${this.answerUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`);
-        // return this.http.get<any>(`${this.answerUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`)
-        //     .pipe(
-        //         tap(_ => this.logService.debug(`getAnswersPadding(): url=${this.answerUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`)),
-        //         catchError(this.handleError('getAnswersPadding()', []))
-        //     );
+        return this.http.get<any>(`${this.answerUrl}?page=${page}&page-size=${pageSize}&search=${searchString}`)
+            .pipe(
+                tap(_ => this.logService.debug(`getAnswersPadding(): url=${this.answerUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`)),
+                catchError(this.handleError('getAnswersPadding()', []))
+            );
+        /*
         return of({
             data: ANSWERS_DATA,
             totalElements: 50,
@@ -148,6 +153,7 @@ export class QuestionService {
             tap(resp=> this.logService.debug(`getAnswersPadding(): url=${this.answerUrl}, page=${page}, page-size=${pageSize}, search=${searchString}`, resp)),
             catchError(this.handleError('getAnswersPadding()', []))
             );
+            */
     }
 
     /**
@@ -156,12 +162,13 @@ export class QuestionService {
      * @param answer    Ответ
      */
     addAnswer(answer: Answer): Observable<Answer> {
-        ANSWERS_DATA.push(answer);
+        /*ANSWERS_DATA.push(answer);
         answer.id = ANSWERS_DATA.length;
         return of(answer);
-
-        return this.http.post<User>(`${this.answerUrl}`, answer)
+        */
+        return this.http.post<any>(`${this.answerUrl}`, answer)
             .pipe(
+                map((resp: DataResponse) => resp.data),
                 tap(_ => this.logService.debug(`addAnswer(): username=${answer.id}`)),
                 catchError(this.handleError('addAnswer()', null))
             );

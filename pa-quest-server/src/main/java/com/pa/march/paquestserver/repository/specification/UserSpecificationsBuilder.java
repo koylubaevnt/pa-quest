@@ -1,6 +1,7 @@
-package com.pa.march.paquestserver.repository;
+package com.pa.march.paquestserver.repository.specification;
 
 import com.pa.march.paquestserver.domain.User;
+import com.pa.march.paquestserver.repository.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

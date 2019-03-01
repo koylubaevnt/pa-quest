@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserQuestionRepository extends JpaRepository<UserQuestion, Long> {
 
 
+    Long countByQuestionId(Long questionId);
+
 }
