@@ -16,8 +16,12 @@ fxLayoutAlign="center center">
     </ng-container>
     
     <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef> Операции </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-header-cell *matHeaderCellDef fxLayoutAlign="end center">
+          <button mat-mini-fab (click)="add()">
+            <mat-icon>add</mat-icon>
+          </button> 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxLayoutAlign="end center">
           <button mat-mini-fab (click)="edit(element)" class="mr-2">
             <mat-icon>edit</mat-icon>
           </button>

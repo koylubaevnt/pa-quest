@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule, MatFormFieldModule, MatInputModule, MatListModule, MatDialogModule } from '@angular/material';
+import { MatProgressBarModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorIntl, MatCardModule, MatGridListModule, MatFormFieldModule, MatInputModule, MatListModule, MatDialogModule, MatCheckboxModule } from '@angular/material';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,6 +29,7 @@ import { SafePipe } from './common/pipes/safe.pipe';
 import { AnswerItemDialogComponent } from './component/question/answer-item-dialog/answer-item-dialog.component';
 import { AnswerSelectDialogComponent } from './component/question/answer-select-dialog/answer-select-dialog.component';
 import { QuestionItemDialogComponent } from './component/question/question-item-dialog/question-item-dialog.component';
+import { UserItemDialogComponent } from './component/user/user-item-dialog/user-item-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import { QuestionItemDialogComponent } from './component/question/question-item-
 
     AnswerSelectDialogComponent,
 
-    QuestionItemDialogComponent
+    QuestionItemDialogComponent,
+
+    UserItemDialogComponent
 
   ],
   imports: [
@@ -73,6 +76,7 @@ import { QuestionItemDialogComponent } from './component/question/question-item-
     MatInputModule,
     MatListModule,
     MatDialogModule,
+    MatCheckboxModule,
 
     FlexLayoutModule,
     
@@ -81,7 +85,9 @@ import { QuestionItemDialogComponent } from './component/question/question-item-
   entryComponents: [
     AnswerItemDialogComponent,
     AnswerSelectDialogComponent,
-    QuestionItemDialogComponent
+    QuestionItemDialogComponent,
+
+    UserItemDialogComponent
   ],
   providers: [
     httpInterceptorProviders,

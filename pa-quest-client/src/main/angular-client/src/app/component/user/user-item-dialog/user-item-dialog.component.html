@@ -1,0 +1,27 @@
+<div fxLayout="column" fxFill>
+  <h2 mat-dialog-title fxFlex=10>{{titleDialog}}</h2>
+  <div mat-dialog-content fxFlex=80 fxLayout="column">
+    <mat-form-field>
+      <input id="username" matInput placeholder="Логин" [(ngModel)]="user.username" required [disabled]="!editable || user.id">
+    </mat-form-field>
+    <mat-form-field>
+      <input id="name" matInput placeholder="ФИО" [(ngModel)]="user.name" required [disabled]="!editable">
+    </mat-form-field>
+    <mat-form-field>
+      <input id="email" type="email" matInput placeholder="Почта" [(ngModel)]="user.email" required [disabled]="!editable">
+    </mat-form-field>
+    <mat-form-field *ngIf="needPasswordInput()">
+      <input id="password" type="password" matInput placeholder="Пароль" (ngModel)="user.password" required [disabled]="!editable">
+    </mat-form-field>
+    <mat-form-field *ngIf="needPasswordInput()" >
+      <input id="passwordConfirm" type="password" matInput placeholder="Подтверждение пароля" (ngModel)="user.passwordConfirm" required [disabled]="!editable">
+    </mat-form-field>
+    
+    <mat-checkbox [(ngModel)]="admin" [disabled]="!editable">Администратор</mat-checkbox>
+
+  </div>
+  <div mat-dialog-actions fxFlex=10 fxLayoutAlign="center">
+      <button mat-flat-button (click)="onSave()">{{buttonSaveText}}</button>
+      <button mat-flat-button (click)="onCancel()">Отмена</button>
+    </div>
+</div>

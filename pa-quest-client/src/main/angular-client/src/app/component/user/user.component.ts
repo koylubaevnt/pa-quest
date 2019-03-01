@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, PageEvent, MatIconRegistry, MatPaginatorIntl } from '@angular/material';
+import { MatTableDataSource, MatPaginator, PageEvent, MatIconRegistry, MatPaginatorIntl, MatDialog } from '@angular/material';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { LogService } from 'src/app/service/log.service';
@@ -8,6 +8,8 @@ import { HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserDataSource } from 'src/app/common/datasource/user-datasource';
 import { tap } from 'rxjs/operators';
+import { UserItemDialogComponent } from './user-item-dialog/user-item-dialog.component';
+import { DialogType } from 'src/app/app-constarts';
 
 @Component({
   selector: 'app-user',
@@ -28,7 +30,8 @@ export class UserComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private userService: UserService, private logService: LogService, private loaderService: LoaderService) { 
+  constructor(private userService: UserService, private logService: LogService, private loaderService: LoaderService,
+    private dialog: MatDialog) { 
     
   }
   
@@ -54,13 +57,51 @@ export class UserComponent implements OnInit {
         '');
   }
 
+  add() {
+    let dialogRef = this.dialog.open(UserItemDialogComponent, {
+      width: '500px',
+      height: '500px',
+      data: {
+        title: "Создать пользователя",
+        type: DialogType.CREATE
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.logService.debug(`Edit user result: ${result}`)  
+    });
+  }
+  
   edit(user: User) {
-    this.logService.debug(`Edit user ${user.username}`)
+    let dialogRef = this.dialog.open(UserItemDialogComponent, {
+      width: '500px',
+      height: '500px',
+      data: {
+        title: "Изменить пользователя",
+        type: DialogType.UPDATE,
+        user: user
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.logService.debug(`Edit user result: ${result}`)  
+    });
   }
   
   delete(user: User) {
-    this.logService.debug(`Delete user ${user.username}`)
-  }
+    let dialogRef = this.dialog.open(UserItemDialogComponent, {
+      width: '500px',
+      height: '400px',
+      data: {
+        title: "Подтверждение удаления пользователя",
+        type: DialogType.DELETE,
+        user: user
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.logService.debug(`Delete user result: ${result}`)  
+    });  }
 
   // private makeRequest(page: number, pageSize: number, search: string) {
   //   this.userService.getUsersPadding(page, pageSize, search)

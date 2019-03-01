@@ -41,27 +41,36 @@ export class UserService {
             )
     }
 
-    /* Получение пользователя по id */
-    getUser(user: User): Observable<User> {
-         return this.http.get<User>(`${this.url}/${user.id}`)
-        .pipe(
-            tap(_ => this.logService.debug(`getUser(): username=${user.username}`)),
-            catchError(this.handleError('getUser()', null))
-        );
-    }
+    // /* Получение пользователя по id */
+    // getUser(user: User): Observable<User> {
+    //      return this.http.get<User>(`${this.userUrl}/${user.id}`)
+    //     .pipe(
+    //         tap(_ => this.logService.debug(`getUser(): username=${user.username}`)),
+    //         catchError(this.handleError('getUser()', null))
+    //     );
+    // }
 
     /* Добавление пользователя */
     addUser(user: User): Observable<User> {
-        return this.http.post<User>(`${this.url}`, user)
+        return this.http.post<User>(`${this.userUrl}`, user)
         .pipe(
             tap(_ => this.logService.debug(`addUser(): username=${user.username}`)),
             catchError(this.handleError('addUser()', null))
         );
     }
-    
+
+    /* Изменение пользователя */
+    updateUser(user: User): Observable<User> {
+        return this.http.put<User>(`${this.userUrl}`, user)
+        .pipe(
+            tap(_ => this.logService.debug(`updateUser(): id=${user.id}, username=${user.username}`)),
+            catchError(this.handleError('updateUser()', null))
+        );
+    }
+
     /* Удаление пользователя */
     deleteUser(userId: number): Observable<User> {
-        return this.http.delete<User>(`${this.url}/${userId}`)
+        return this.http.delete<User>(`${this.userUrl}/${userId}`)
         .pipe(
             tap(_ => this.logService.debug(`deleteUser(): id=${userId}`)),
             catchError(this.handleError('deleteUser()', null))

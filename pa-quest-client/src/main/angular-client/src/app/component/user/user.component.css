@@ -28,3 +28,9 @@
     z-index: 998;
     
 }
+
+.fab-button-add {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+}
