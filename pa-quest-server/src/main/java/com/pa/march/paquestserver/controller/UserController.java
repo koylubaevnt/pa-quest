@@ -141,10 +141,15 @@ public class UserController {
      * @return
      */
     @PutMapping("/gen-password")
-    ResponseEntity<DataResponse<BaseResponse>> generatePasswordAndSendMail(@RequestHeader String host, @RequestBody UserResource userResource) {
+    ResponseEntity<DataResponse<BaseResponse>> generatePasswordAndSendMail(HttpServletRequest request, @RequestHeader String host, @RequestBody UserResource userResource) {
         LOG.info("PUT /api/user/gen-password, RequestBody = {}", userResource);
         try {
-            userService.sendNewPasswordToUserByMail(userResource.getEmail(), host);
+            String fullHost = request.getScheme() + "://" +
+                    host
+                            .replaceFirst("^://", "")
+                            .replaceFirst("^//", "");
+            LOG.info("fullHost = {}", fullHost);
+            userService.sendNewPasswordToUserByMail(userResource.getEmail(), fullHost);
             DataResponse<BaseResponse> response = new DataResponse<>();
             ResponseEntity<DataResponse<BaseResponse>> entity = new ResponseEntity<>(response, HttpStatus.OK);
             return entity;
@@ -161,10 +166,15 @@ public class UserController {
      * @return
      */
     @PutMapping("/gen-passwords")
-    ResponseEntity<DataResponse<BaseResponse>> generatePasswordAndSendMail(@RequestHeader String host) {
+    ResponseEntity<DataResponse<BaseResponse>> generatePasswordAndSendMail(HttpServletRequest request, @RequestHeader String host) {
         LOG.info("PUT /api/user/gen-passwords");
         try {
-            userService.sendNewPasswordToAllUsers(host);
+            String fullHost = request.getScheme() + "://" +
+                    host
+                            .replaceFirst("^://", "")
+                            .replaceFirst("^//", "");
+            LOG.info("fullHost = {}", fullHost);
+            userService.sendNewPasswordToAllUsers(fullHost);
             DataResponse<BaseResponse> response = new DataResponse<>();
             ResponseEntity<DataResponse<BaseResponse>> entity = new ResponseEntity<>(response, HttpStatus.OK);
             return entity;

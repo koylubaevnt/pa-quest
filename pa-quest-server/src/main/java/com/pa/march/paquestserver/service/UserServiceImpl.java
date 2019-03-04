@@ -352,7 +352,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.save(user);
             Mail mail = new Mail();
-            mail.setSubject("Пароль на вход приложения pa-quest");
+            mail.setSubject("С праздником 8 марта!");
             mail.setTo(user.getEmail());
 
             Map<String, Object> model = new HashMap<>();

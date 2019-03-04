@@ -1,11 +1,15 @@
 package com.pa.march.paquestserver.service;
 
 import com.pa.march.paquestserver.domain.Congratulation;
+import com.pa.march.paquestserver.domain.Role;
+import com.pa.march.paquestserver.domain.RoleName;
+import com.pa.march.paquestserver.domain.User;
 import com.pa.march.paquestserver.exception.QuestException;
 import com.pa.march.paquestserver.message.resource.CongratulationResource;
 import com.pa.march.paquestserver.message.response.BaseResponse;
 import com.pa.march.paquestserver.repository.CongratulationRepository;
 import com.pa.march.paquestserver.repository.UserQuestRepository;
+import com.pa.march.paquestserver.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -21,6 +25,9 @@ public class CongratulationServiceImpl implements CongratulationService {
     private CongratulationRepository congratulationRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserQuestRepository userQuestRepository;
 
     @Autowired
@@ -29,10 +36,20 @@ public class CongratulationServiceImpl implements CongratulationService {
     @Override
     public CongratulationResource getCongratulation(UserPrinciple userPrinciple) {
 
-        long count = userQuestRepository.countByUserIdAndActive(userPrinciple.getId(), false);
-
-        if (count == 0) {
+        User user = userRepository.findByUsername(userPrinciple.getUsername()).orElse(null);
+        if (user == null) {
             return null;
+        }
+        Role role = user.getRoles().stream()
+                .filter(e -> e.getName().equals(RoleName.ROLE_ADMIN))
+                .findFirst()
+                .orElse(null);
+        if (role == null) {
+            long count = userQuestRepository.countByUserIdAndActive(userPrinciple.getId(), false);
+
+            if (count == 0) {
+                return null;
+            }
         }
         Congratulation congratulation = congratulationRepository.findAll().stream()
                 .findFirst()
