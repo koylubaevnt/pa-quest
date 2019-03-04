@@ -135,6 +135,46 @@ public class UserController {
     }
 
     /**
+     * Генерация пароля и отправка его на Email
+     * @param host
+     * @param userResource  Пользователь
+     * @return
+     */
+    @PutMapping("/gen-password")
+    ResponseEntity<DataResponse<BaseResponse>> generatePasswordAndSendMail(@RequestHeader String host, @RequestBody UserResource userResource) {
+        LOG.info("PUT /api/user/gen-password, RequestBody = {}", userResource);
+        try {
+            userService.sendNewPasswordToUserByMail(userResource.getEmail(), host);
+            DataResponse<BaseResponse> response = new DataResponse<>();
+            ResponseEntity<DataResponse<BaseResponse>> entity = new ResponseEntity<>(response, HttpStatus.OK);
+            return entity;
+        } catch (Exception e) {
+            LOG.error("e={}, e.getMessage={}, e.getStackTrace={}", e, e.getMessage(), Arrays.toString(e.getStackTrace()));
+            ResponseEntity<DataResponse<BaseResponse>> result = new ResponseEntity<>(new DataResponse<>(null, 500, e.getMessage()), HttpStatus.BAD_REQUEST);
+            return result;
+        }
+    }
+
+    /**
+     * Генерация пароля и отправка его на Email
+     * @param host
+     * @return
+     */
+    @PutMapping("/gen-passwords")
+    ResponseEntity<DataResponse<BaseResponse>> generatePasswordAndSendMail(@RequestHeader String host) {
+        LOG.info("PUT /api/user/gen-passwords");
+        try {
+            userService.sendNewPasswordToAllUsers(host);
+            DataResponse<BaseResponse> response = new DataResponse<>();
+            ResponseEntity<DataResponse<BaseResponse>> entity = new ResponseEntity<>(response, HttpStatus.OK);
+            return entity;
+        } catch (Exception e) {
+            LOG.error("e={}, e.getMessage={}, e.getStackTrace={}", e, e.getMessage(), Arrays.toString(e.getStackTrace()));
+            ResponseEntity<DataResponse<BaseResponse>> result = new ResponseEntity<>(new DataResponse<>(null, 500, e.getMessage()), HttpStatus.BAD_REQUEST);
+            return result;
+        }
+    }
+    /**
      * Получить список Пользовательских ролей
      * @param request
      * @return

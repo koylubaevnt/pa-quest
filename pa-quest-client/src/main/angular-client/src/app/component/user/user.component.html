@@ -17,16 +17,22 @@ fxLayoutAlign="center center">
     
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef fxLayoutAlign="end center">
-          <button mat-mini-fab (click)="add()">
+          <button mat-mini-fab (click)="add()" class="mr-2">
             <mat-icon>add</mat-icon>
+          </button> 
+          <button mat-mini-fab (click)="mail()">
+            <mat-icon>mail</mat-icon>
           </button> 
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxLayoutAlign="end center">
           <button mat-mini-fab (click)="edit(element)" class="mr-2">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-mini-fab (click)="delete(element)">
+          <button mat-mini-fab (click)="delete(element)"class="mr-2">
             <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="mail(element)">
+            <mat-icon>mail</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

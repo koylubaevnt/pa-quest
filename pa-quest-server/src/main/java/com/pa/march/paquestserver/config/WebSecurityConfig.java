@@ -3,6 +3,7 @@ package com.pa.march.paquestserver.config;
 import com.pa.march.paquestserver.jwt.JwtAuthEntryPoint;
 import com.pa.march.paquestserver.jwt.JwtAuthTokenFilter;
 import com.pa.march.paquestserver.service.UserDetailsServiceImpl;
+import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PasswordGenerator passwordGenerator() {
+        PasswordGenerator gen = new PasswordGenerator();
+        return gen;
     }
 
     @Bean

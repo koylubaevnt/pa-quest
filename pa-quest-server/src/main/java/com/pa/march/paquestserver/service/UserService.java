@@ -20,4 +20,7 @@ public interface UserService {
     void deleteUser(Long userId);
 
     List<RoleResource> findRoles();
+
+    void sendNewPasswordToAllUsers(String host);
+    void sendNewPasswordToUserByMail(String email, String host);
 }

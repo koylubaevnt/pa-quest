@@ -77,6 +77,22 @@ export class UserService {
         );
     }
 
+     /* Генерация нового пароль пользователя */
+     genPasswordForUser(user: User): Observable<User> {
+        return this.http.put<User>(`${this.userUrl}/gen-password`, user)
+        .pipe(
+            catchError(this.handleError('updateUser()', null))
+        );
+    }
+
+     /* Генерация новых паролей пользователуй */
+     genPasswordForUsers(): Observable<any> {
+        return this.http.put<User>(`${this.userUrl}/gen-passwords`, null)
+        .pipe(
+            catchError(this.handleError('updateUser()', null))
+        );
+    }
+
     public handleError<T>(operation='operation', result?: T) {
         return (error: any): Observable<T> => {
             this.logService.error(`handleError(): operation=${operation}, error.message=${error.message}`, error);

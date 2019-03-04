@@ -110,6 +110,17 @@ export class UserComponent implements OnInit {
     });  
   }
 
+  mail(user?: User) {
+    console.log(user);
+    if (user) {
+      this.userService.genPasswordForUser(user)
+        .subscribe(_ => {});
+    } else {
+      this.userService.genPasswordForUsers()
+        .subscribe(_ => {});
+    }
+  }
+
   // private makeRequest(page: number, pageSize: number, search: string) {
   //   this.userService.getUsersPadding(page, pageSize, search)
   //     .subscribe(event => {

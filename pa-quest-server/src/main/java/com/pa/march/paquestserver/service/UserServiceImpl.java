@@ -4,11 +4,16 @@ import com.pa.march.paquestserver.domain.Role;
 import com.pa.march.paquestserver.domain.RoleName;
 import com.pa.march.paquestserver.domain.User;
 import com.pa.march.paquestserver.exception.QuestException;
+import com.pa.march.paquestserver.message.Mail;
 import com.pa.march.paquestserver.message.resource.RoleResource;
 import com.pa.march.paquestserver.message.resource.UserResource;
 import com.pa.march.paquestserver.message.response.BaseResponse;
 import com.pa.march.paquestserver.repository.*;
 import com.pa.march.paquestserver.repository.specification.UserSpecificationsBuilder;
+import org.passay.CharacterData;
+import org.passay.CharacterRule;
+import org.passay.EnglishCharacterData;
+import org.passay.PasswordGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -49,6 +54,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ConversionService conversionService;
+
+    @Autowired
+    private MailSenderService mailSenderService;
+
+    @Autowired
+    private PasswordGenerator passwordGenerator;
 
     @Override
     public Page<UserResource> findUserPagingFiltering(String search, PageRequest pageable) {
@@ -269,6 +280,31 @@ public class UserServiceImpl implements UserService {
         return resource;
     }
 
+    @Override
+    public void sendNewPasswordToAllUsers(String host) {
+        if (mailSenderService == null) {
+            throw new QuestException(500, "Не работает email рассылка!");
+        }
+        List<User> users = userRepository.findAll();
+
+        StringBuilder sb = new StringBuilder();
+
+        for(User user: users) {
+            changePasswordAndSendEmailToUser(host, user, sb);
+            sb.setLength(0);
+        }
+    }
+
+    @Override
+    public void sendNewPasswordToUserByMail(String email, String host) {
+        if (mailSenderService == null) {
+            throw new QuestException(500, "Не работает email рассылка!");
+        }
+        User user = userRepository.findByEmail(email);
+        StringBuilder sb = new StringBuilder();
+        changePasswordAndSendEmailToUser(host, user, sb);
+    }
+
     private void roleToRoleResource(Role role, RoleResource roleResource) {
         roleResource.setId(role.getId());
         roleResource.setName(role.getName().name().toUpperCase());
@@ -307,5 +343,58 @@ public class UserServiceImpl implements UserService {
             }
         }
         user.setRoles(roles);
+    }
+
+    private void changePasswordAndSendEmailToUser(String host, User user, StringBuilder sb) {
+        String password = generatePassword();
+        user.setPassword(passwordEncoder.encode(password));
+
+        try {
+            userRepository.save(user);
+            Mail mail = new Mail();
+            mail.setSubject("Пароль на вход приложения pa-quest");
+            mail.setTo(user.getEmail());
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("user", user);
+            model.put("host", host);
+            model.put("password", password);
+            model.put("signature", "От ваших ребят");
+            mail.setModel(model);
+
+            mailSenderService.send(mail);
+        } catch (Exception e) {
+
+        }
+    }
+
+    private String generatePassword() {
+        CharacterData lowerCaseChars = EnglishCharacterData.LowerCase;
+        CharacterRule lowerCaseRule = new CharacterRule(lowerCaseChars);
+        lowerCaseRule.setNumberOfCharacters(2);
+
+        CharacterData upperCaseChars = EnglishCharacterData.UpperCase;
+        CharacterRule upperCaseRule = new CharacterRule(upperCaseChars);
+        upperCaseRule.setNumberOfCharacters(2);
+
+        CharacterData digitChars = EnglishCharacterData.Digit;
+        CharacterRule digitRule = new CharacterRule(digitChars);
+        digitRule.setNumberOfCharacters(2);
+
+        CharacterData specialChars = new CharacterData() {
+            public String getErrorCode() {
+                return "ERROR_CODE";
+            }
+
+            public String getCharacters() {
+                return "!@#$%^&*()_+";
+            }
+        };
+        CharacterRule splCharRule = new CharacterRule(specialChars);
+        splCharRule.setNumberOfCharacters(2);
+
+        return passwordGenerator.generatePassword(10, splCharRule, lowerCaseRule,
+                upperCaseRule, digitRule);
+
     }
 }
