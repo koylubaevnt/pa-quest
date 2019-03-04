@@ -3,14 +3,12 @@
   <div mat-dialog-content fxFlex=80 fxLayout="row">
     <div fxLayout="column" fxFlex="60">
       <mat-form-field>
-        <input matInput placeholder="Вопрос" [(ngModel)]="questionForm.text"
-          (ngModelChange)="changeVal(true)" required [disabled]="!editable">
+        <input matInput placeholder="Вопрос" [(ngModel)]="questionForm.text" required [disabled]="!editable">
       </mat-form-field>
       <mat-form-field>
         <!-- <input matInput placeholder="Ссылка на видео Youtube" [(ngModel)]="questionForm.youtubeVideoUrl"
           (ngModelChange)="changeVal(true)" required> -->
-        <input matInput placeholder="Ссылка на видео Youtube" [ngModel]="questionForm.youtubeVideoUrl" 
-          (blur)="changeYoutubeLink($event.target.value)" required [disabled]="!editable">
+        <input matInput placeholder="Ссылка на видео Youtube" [ngModel]="questionForm.youtubeVideoUrl" required [disabled]="!editable">
         <mat-hint>Идентификатор Youtube видео: {{questionForm.youtubeVideoId}}</mat-hint>
       </mat-form-field>
       
