@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'congratulation',
     component: CongratulationComponent,
-    canActivate: [ AuthGuard, FinishQuestGuard ]
+    canActivate: [ FinishQuestGuard ]
   },
   {
     path: 'user',
