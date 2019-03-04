@@ -18,13 +18,13 @@ export class CongratulationComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.congratulationService.getVideoId().pipe(
+    this.congratulationService.getCongratulation().pipe(
       map(data => data.data),
       catchError(err => null)
     )
     .subscribe(
       data => {
-        this.videoId = data;
+        this.videoId = data.videoId;
       }
     );
   }

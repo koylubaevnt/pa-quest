@@ -54,7 +54,7 @@ export class NavBarComponent implements OnInit {
     this.userQuesrService.oneQuestIsFinished$.subscribe(finished => {
       this.finished = finished;
     });
-    this.userQuesrService.isFinishQuest().subscribe(_ => _);
+    //this.userQuesrService.isFinishQuest().subscribe(_ => _);
   }
 
   

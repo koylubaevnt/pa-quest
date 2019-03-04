@@ -21,10 +21,10 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         if (e instanceof BadCredentialsException) {
             LOG.error("BadCredentials error. Message - {}", e.getMessage());
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Incorrect username or password");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Некорректные учетные данные!");
         } else {
             LOG.error("Unauthorized error. Message - {}", e.getMessage());
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error -> Unauthorized");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Неавторизованный доступ");
         }
     }
 

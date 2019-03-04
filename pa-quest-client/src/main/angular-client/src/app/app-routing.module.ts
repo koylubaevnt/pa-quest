@@ -10,6 +10,7 @@ import { StartQuestComponent } from './component/quest/start-quest/start-quest.c
 import { CongratulationComponent } from './component/congratulation/congratulation.component';
 import { FinishQuestGuard } from './guard/finish-quest-guard';
 import { QuestionListComponent } from './component/question/question-list/question-list.component';
+import { CongratulationEditComponent } from './component/admin/congratulation-edit/congratulation-edit.component';
 
 const routes: Routes = [
 
@@ -39,6 +40,14 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserComponent,
+    canActivate: [ RoleGuard ],
+    data: { 
+      expectedRole: 'admin'
+    } 
+  },
+  {
+    path: 'congratulationAdmin',
+    component: CongratulationEditComponent,
     canActivate: [ RoleGuard ],
     data: { 
       expectedRole: 'admin'

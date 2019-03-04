@@ -1,61 +1,20 @@
 <div *ngIf="info.token" class="container content"
   fxLayout="column"
   fxLayoutAlign="center center">
-  <h5>Your Information</h5>
   <div class="container">
-    <div class="row">
-      <div class="col col-2">
-          <strong>Username:</strong>
-      </div>
-      <div class="col">
-          {{info.username}}
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col col-2">
-          <strong>Roles:</strong>
-      </div>
-      <div class="col">
-          {{info.roles}}
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col col-2">
-          <strong>Authorities:</strong>
-      </div>
-      <div class="col">
-          {{info.authorities}}
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col col-2">
-          <strong>Issue date::</strong>
-      </div>
-      <div class="col">
-          {{info.issueDate}}
-      </div>
+    <div class="jumbotron">
+      <h1 *ngIf="info.name" class="display-4">Добро пожаловать, {{info.name}}!</h1>
+      <h1 *ngIf="!info.name" class="display-4">Добро пожаловать!</h1>
+      <p class="lead">
+          Мы рады приветствовать Вас на нашем сайте.<br>
+          И предлагаем Вам пройти квест, после которого Вы получите сюрприз.
+      </p>
+      <hr class="my-4">
+      <p class="lead">
+        <a class="btn btn-primary" routerLink="/start-quest">Начать квест</a>
+      </p>
     </div>
     
-    <div class="row">
-      <div class="col col-2">
-          <strong>Expired date::</strong>
-      </div>
-      <div class="col">
-          {{info.expiredDate}}
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col col-2">
-          <strong>Token:</strong>
-      </div>
-      <div class="col col-8" style="word-wrap: break-word;"> 
-          {{info.token}}
-      </div>
-    </div>
-    <a class="btn btn-primary" routerLink="/start-quest">Начать квест</a>
   </div>
+
 </div>

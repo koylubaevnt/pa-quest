@@ -62,14 +62,22 @@ alter table user_roles
 
 
 SET @v_role_admin_id = nextval('hibernate_sequence');
+SET @v_role_user_id = nextval('hibernate_sequence');
 INSERT INTO roles(id, name, text) VALUES(@v_role_admin_id, 'ROLE_ADMIN', 'Администратор');
-INSERT INTO roles(id, name, text) VALUES(nextval('hibernate_sequence'), 'ROLE_USER', 'Пользователь');
+INSERT INTO roles(id, name, text) VALUES(@v_role_user_id, 'ROLE_USER', 'Пользователь');
 
 
 SET @v_user_admin_id = nextval('hibernate_sequence');
 INSERT INTO users(id, email, name, password, username)
-VALUES(@v_user_admin_id, 'admin@mail.ru', 'admin', '$2a$04$zfIHQdNS3R0qvDtCK9DylOp2VfgnXDE0DBahjlANa5O4Y9n35gXfO', 'admin');
+VALUES(@v_user_admin_id, 'koily@mail.ru', 'Койлубаев Никита Тахирович', '$2a$04$zfIHQdNS3R0qvDtCK9DylOp2VfgnXDE0DBahjlANa5O4Y9n35gXfO', 'koylubaevnt');
+INSERT INTO user_roles(user_id, role_id) VALUES(@v_user_admin_id, @v_role_user_id);
+INSERT INTO user_roles(user_id, role_id) VALUES(@v_user_admin_id, @v_role_admin_id);
 
+
+SET @v_user_admin_id = nextval('hibernate_sequence');
+INSERT INTO users(id, email, name, password, username)
+VALUES(@v_user_admin_id, 'KamenskikhYuV@iris-retail.ru', 'Каменских Юра Висторович', '$2a$04$zfIHQdNS3R0qvDtCK9DylOp2VfgnXDE0DBahjlANa5O4Y9n35gXfO', 'kamenskikhyv');
+INSERT INTO user_roles(user_id, role_id) VALUES(@v_user_admin_id, @v_role_user_id);
 INSERT INTO user_roles(user_id, role_id) VALUES(@v_user_admin_id, @v_role_admin_id);
 
 create sequence answer_sequence start with 1 increment by 1;
@@ -173,43 +181,5 @@ create table congratulation(
     video_id varchar(100) not null,
     primary key(id)
 );
-
-
-SET @v_correct_answer_id = nextval('answer_sequence');
-SET @v_answer_1_id = nextval('answer_sequence');
-SET @v_answer_2_id = nextval('answer_sequence');
-SET @v_answer_3_id = nextval('answer_sequence');
-insert into answer (id, text) values(@v_correct_answer_id, 'Памятник 100 летию Финской демократии');
-insert into answer (id, text) values(@v_answer_1_id, 'Памятник Финляндии');
-insert into answer (id, text) values(@v_answer_2_id, 'Памятник новаторским идеям');
-insert into answer (id, text) values(@v_answer_3_id, 'Памятник памятнику');
-
-SET @v_content_file_id = nextval('content_sequence');
-SET @v_content_link_id = nextval('content_sequence');
-insert into content(id, name, extension, type, content) values (@v_content_file_id, 'Памятник загадка', 'mp4', 'FILE', '1234');
-insert into content(id, name, extension, type, content) values (@v_content_link_id, 'https://wwww/youtube.com/watch?v=HBiPThwCQOM&index=5&list=PL5r1HBOJCfZbr6nEDg6zQZx1pLkqLq4Be', 'mp4', 'LINK', null);
-
-
-SET @v_question_1_id = nextval('question_sequence');
-SET @v_question_2_id = nextval('question_sequence');
-SET @v_question_3_id = nextval('question_sequence');
-insert into question(id, text, content_id, correct_answer_id, youtube_video_url) values(@v_question_1_id, 'Что это за памятник?', @v_content_file_id, @v_correct_answer_id, 'HBiPThwCQOM');
-insert into question(id, text, content_id, correct_answer_id, youtube_video_url) values(@v_question_2_id, 'Что это за памятник?', @v_content_link_id, @v_correct_answer_id, '7OoCjdtX5D8');
-insert into question(id, text, content_id, correct_answer_id, youtube_video_url) values(@v_question_3_id, 'Что это за памятник? Ответов меньше 4', @v_content_link_id, @v_answer_2_id, 'OoS6dY5fa60');
-
-insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_correct_answer_id);
-insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_1_id);
-insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_2_id);
-insert into question_answer(question_id, answer_id) values(@v_question_1_id, @v_answer_3_id);
-
-insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_2_id);
-insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_1_id);
-insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_answer_3_id);
-insert into question_answer(question_id, answer_id) values(@v_question_2_id, @v_correct_answer_id);
-
-insert into question_answer(question_id, answer_id) values(@v_question_3_id, @v_answer_2_id);
-insert into question_answer(question_id, answer_id) values(@v_question_3_id, @v_answer_1_id);
-insert into question_answer(question_id, answer_id) values(@v_question_3_id, @v_answer_3_id);
-
 
 insert into congratulation(id, video_id) values(nextval('congratulation_sequence'), '2YHpZbsUgK4');

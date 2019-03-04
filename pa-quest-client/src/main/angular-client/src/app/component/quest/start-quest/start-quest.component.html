@@ -1,13 +1,18 @@
 <div class="container content" *ngIf="questFinished"
   fxLayout="column"
   fxLayoutAlign="center center">
-  Поздравляю, Вы прошли квест.<br />
-  Вы заработали просмотр поздравительного видео:<br />
-  <a class="btn btn-primary" routerLink="/congratulation">Поздравлениe</a>
-
-  <br />Если Вам понравилось, то вы можете попробовать еще раз пройти квест.<br />
-  <button class="btn btn-primary" (click)="startQuest">Начать квест</button>  
-  
+  <div class="jumbotron">
+    <h1 class="display-4">Поздравляю, Вы прошли квест.</h1>
+    <p class="lead">
+      Вы заработали просмотр поздравительного видео: 
+      <a class="btn btn-primary" routerLink="/congratulation">Поздравлениe</a>
+    </p>
+    <hr class="my-4">
+      <p class="lead">
+        Если Вам понравилось, то вы можете попробовать еще раз пройти квест: 
+        <button class="btn btn-primary" (click)="startQuest()">Начать квест</button>  
+      </p>
+  </div>
 </div>
 <div class="container content"  *ngIf="!!currentQuestion"
   fxLayout="column"

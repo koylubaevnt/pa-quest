@@ -1,0 +1,38 @@
+<div class="content" >
+    <div fxLayout="column" fxFill>
+       <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="10">
+        <h2 *ngIf="currentCongratulation && !!currentCongratulation.id">Поздравление задано</h2>
+        <h2 *ngIf="!currentCongratulation || !currentCongratulation.id">Поздравления нет</h2>
+      </div>
+  
+      <mat-card>
+        <mat-card-content>
+          <div fxLayout="row" mat-dialog-content>
+            <div fxLayout="column" fxFlex="60">
+              <mat-form-field>
+                <input matInput placeholder="Ссылка на видео Youtube" [ngModel]="currentCongratulation.youtubeVideoUrl" (blur)="changeYoutubeLink($event.target.value)" 
+                  required>
+                <mat-hint>Идентификатор Youtube видео: {{currentCongratulation.videoId}}</mat-hint>
+              </mat-form-field>
+              
+              <div fxLayout="row">
+                <button *ngIf="changed" mat-flat-button (click)="save()">Сохранить</button>
+                <button *ngIf="changed" mat-flat-button (click)="cancel()">Отменить</button>
+              </div>
+  
+            </div>
+            <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">
+                <iframe
+                  *ngIf="currentCongratulation.youtubeVideoUrl"
+                  class="youtube"
+                  frameborder="0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  [src]="currentCongratulation.youtubeVideoUrl | safe">
+                </iframe>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+    </div>
+  </div>

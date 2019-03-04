@@ -34,7 +34,8 @@ export class StartQuestComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.loadUserQuest(); 
+    this.loadUserQuest();
+    this.userQuestService.isFinishQuest().subscribe(_ => _); 
   }
 
   loadUserQuest() {
@@ -45,6 +46,19 @@ export class StartQuestComponent implements OnInit {
       catchError(() => of(null))
     )
     .subscribe((userQuest: UserQuest) => this.nextQuest(userQuest));
+  }
+
+  startQuest() {
+    this.userQuestService.getUserQuest().pipe(
+      map(data => {
+          return data.data;
+      }),
+      catchError(() => of(null))
+    )
+    .subscribe((userQuest: UserQuest) => {
+      this.questFinished = false;
+      this.nextQuest(userQuest)
+    });
   }
 
   saveAnswer(answer: Answer) {
@@ -81,6 +95,7 @@ export class StartQuestComponent implements OnInit {
           this.videoUrl = undefined;
           this.currentIndex = undefined;
           this.countQuestion = undefined;
+          this.userQuestService.isFinishQuest().subscribe(_ => _);
         }    
       } else {
         let idx: number = 0;
@@ -115,6 +130,7 @@ export class StartQuestComponent implements OnInit {
         this.videoUrl = undefined;
         this.currentIndex = undefined;
         this.countQuestion = undefined;
+        this.userQuestService.isFinishQuest().subscribe(_ => _);
       } else {
         let idx: number = 0;
         for (let userQuestion of userQuest.questions) {

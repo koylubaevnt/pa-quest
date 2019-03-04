@@ -24,9 +24,14 @@ export class AuthInterceptor implements HttpInterceptor {
                 tap(
                     event => {},
                     error => {
-                        let errorDescription = 'Ошибка ' + error.status + ' ' + error.statusText;
-                        if (error.error.response_message) {
-                            errorDescription = errorDescription + ': ' + error.error.response_message;
+                        let errorDescription;
+                        if (error.status === 401) {
+                            errorDescription = ' Ошибка ' + error.status + ' ' + error.error.message;
+                        } else {
+                            errorDescription = ' Ошибка ' + error.status + ' ' + error.statusText;
+                            if (error.error.response_message) {
+                                errorDescription = errorDescription + ': ' + error.error.response_message;
+                            }
                         }
                         this.snackBar.openSnackBar(errorDescription, 'Close', 'error-snackbar');
                     }

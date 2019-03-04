@@ -31,6 +31,7 @@ import { AnswerSelectDialogComponent } from './component/question/answer-select-
 import { QuestionItemDialogComponent } from './component/question/question-item-dialog/question-item-dialog.component';
 import { UserItemDialogComponent } from './component/user/user-item-dialog/user-item-dialog.component';
 import { InfoBarComponent } from './component/info-bar/info-bar.component';
+import { CongratulationEditComponent } from './component/admin/congratulation-edit/congratulation-edit.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,9 @@ import { InfoBarComponent } from './component/info-bar/info-bar.component';
 
     UserItemDialogComponent,
 
-    InfoBarComponent
+    InfoBarComponent,
+
+    CongratulationEditComponent
 
   ],
   imports: [

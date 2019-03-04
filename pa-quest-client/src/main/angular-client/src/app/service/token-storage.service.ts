@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import decode from 'jwt-decode';
 
 const TOKEN_KEY = 'AuthToken';
+const TOKEN_NAME_KEY = 'AuthName';
 const TOKEN_USERNAME_KEY = 'AuthUsername';
 const TOKEN_ISSUE_DATE_KEY = 'AuthIssueDate';
 const TOKEN_EXPIRED_DATE_KEY = 'AuthExpiredDate';
@@ -30,6 +31,8 @@ export class TokenStorageService {
         
         sessionStorage.removeItem(TOKEN_USERNAME_KEY);
         sessionStorage.setItem(TOKEN_USERNAME_KEY, tokenPayload.sub);
+        sessionStorage.removeItem(TOKEN_NAME_KEY);
+        sessionStorage.setItem(TOKEN_NAME_KEY, tokenPayload.name);
         sessionStorage.removeItem(TOKEN_ISSUE_DATE_KEY);
         sessionStorage.setItem(TOKEN_ISSUE_DATE_KEY, tokenPayload.iat);
         sessionStorage.removeItem(TOKEN_EXPIRED_DATE_KEY);
@@ -47,6 +50,10 @@ export class TokenStorageService {
 
     public getUsername(): string {
         return sessionStorage.getItem(TOKEN_USERNAME_KEY);
+    }
+
+    public getName(): string {
+        return sessionStorage.getItem(TOKEN_NAME_KEY);
     }
 
     public getAuthorities(): string[] {

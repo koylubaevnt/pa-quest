@@ -37,6 +37,7 @@ public class JwtTokenProvider {
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
 
         Claims claims = Jwts.claims().setSubject(userPrinciple.getUsername());
+        claims.put("name", userPrinciple.getName());
         claims.put("roles", grantedAuthorities.stream().map(s -> s.toString().replace("ROLE_","").toLowerCase()).collect(Collectors.toList()));
         claims.put("authorities", grantedAuthorities.stream().map(s -> s.toString().toUpperCase()).collect(Collectors.toList()));
 
