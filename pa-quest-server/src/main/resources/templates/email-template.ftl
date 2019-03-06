@@ -23,8 +23,8 @@
 
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
         <tr>
-            <td align="center" bgcolor="#2b79d8" style="padding: 40px 0 30px 0;">
-                <img src="cid:logo.png" alt="С праздником 8 Марта" style="display: block; width:200px; height: 200px;" />
+            <td align="center" style="padding: 40px 0 0 0;">
+               <img src="cid:knights.jpg" alt="Богатыри" style="width: 600px;" />
             </td>
         </tr>
         <tr>
@@ -39,6 +39,7 @@
 
                 <hr />
                 <div align="center">
+                    <img src="cid:logo.png" alt="С праздником 8 Марта" style="width:100px; height: 100px;" />
                     <h3>С праздником 8 Марта!</h3>
                     Мужская половина коллектива <br />
                     Вас поздравляет с праздником весны.<br />

@@ -20,7 +20,7 @@ export class QuestionListComponent implements OnInit {
 
   selectedQuestion: QuestionForm;
 
-  page: number = 0;
+  //page: number = 0;
   pageIndex: number = 0;
   pageSize: number = 8;
   pageEvent: PageEvent;
@@ -43,7 +43,7 @@ export class QuestionListComponent implements OnInit {
     } else {
       this.search = "";
     }
-    this.page = 0
+    this.pageIndex = 0
     this.getQuestionsPaging(null);
   }
 
@@ -76,7 +76,7 @@ export class QuestionListComponent implements OnInit {
   }
 
   getQuestionsPaging(activeQuestion: QuestionForm) {
-    this.questionService.getQuestionsPadding(this.page, this.pageSize, this.search)
+    this.questionService.getQuestionsPadding(this.pageIndex, this.pageSize, this.search)
       .subscribe(result => {
         this.questions = result['data'];
         this.totalElements = result['totalElements'];

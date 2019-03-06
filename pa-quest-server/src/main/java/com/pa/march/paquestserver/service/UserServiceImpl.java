@@ -359,7 +359,7 @@ public class UserServiceImpl implements UserService {
             model.put("user", user);
             model.put("host", host);
             model.put("password", password);
-            model.put("signature", "От ваших ребят");
+            model.put("signature", "&copy; Богатырский коллектив. 2019");
             mail.setModel(model);
 
             mailSenderService.send(mail);

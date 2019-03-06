@@ -32,9 +32,10 @@ export class NavBarComponent implements OnInit {
   authorized: boolean = false;
   finished: Boolean;
   show: boolean = true;
+  userName: string;
   // collapse: string = "closed";
 
-  constructor(private tokenStorageService: TokenStorageService, private authService: AuthenticationService, private userQuesrService: UserQuestService) { }
+  constructor(public tokenStorageService: TokenStorageService, private authService: AuthenticationService, private userQuesrService: UserQuestService) { }
 
   ngOnInit() {
     if (this.tokenStorageService.getToken()) {
@@ -46,6 +47,7 @@ export class NavBarComponent implements OnInit {
         if (this.tokenStorageService.getToken()) {
           this.roles = this.tokenStorageService.getRoles();
           this.authorized = true; 
+          this.userName = this.tokenStorageService.getName();
         }
       //} else {
         //this.tokenStorageService.signOut();

@@ -7,7 +7,6 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -37,7 +36,8 @@ public class MailSenderService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
-        helper.addAttachment("logo.png", new ClassPathResource("logo.png"));
+        helper.addAttachment("logo.png", new ClassPathResource("img/logo.png"));
+        helper.addAttachment("knights.jpg", new ClassPathResource("img/knights.jpg"));
 
         Template template = freemarkerConfiguration.getTemplate("email-template.ftl");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());

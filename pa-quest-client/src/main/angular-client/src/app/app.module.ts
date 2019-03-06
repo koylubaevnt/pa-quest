@@ -30,8 +30,8 @@ import { AnswerItemDialogComponent } from './component/question/answer-item-dial
 import { AnswerSelectDialogComponent } from './component/question/answer-select-dialog/answer-select-dialog.component';
 import { QuestionItemDialogComponent } from './component/question/question-item-dialog/question-item-dialog.component';
 import { UserItemDialogComponent } from './component/user/user-item-dialog/user-item-dialog.component';
-import { InfoBarComponent } from './component/info-bar/info-bar.component';
 import { CongratulationEditComponent } from './component/admin/congratulation-edit/congratulation-edit.component';
+import { InfoBarComponent } from './component/info-bar/info-bar.component';
 
 @NgModule({
   declarations: [

@@ -31,9 +31,9 @@
       </iframe>
     </mat-card-content>
     <mat-card-actions>
-      <mat-grid-list cols="2" rowHeight="8:1">
+      <mat-grid-list cols="2" rowHeight="4:1">
         <mat-grid-tile *ngFor="let answer of currentQuestion.question.answers">
-            <button mat-button (click)="saveAnswer(answer)">{{answer.text}}</button>
+            <button style="height: 100%; white-space: normal; word-wrap: break-word;" mat-button (click)="saveAnswer(answer)">{{answer.text}}</button>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-actions>

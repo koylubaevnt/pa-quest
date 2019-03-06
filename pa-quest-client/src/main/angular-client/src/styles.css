@@ -14,8 +14,14 @@ body {
   height: 100%;
 }
 
-
+/*
 .bg-image {
     background-image: url('assets/img/background.jpg');
     background-size: cover;
+}
+*/
+
+.bg-image {
+  background-image: url('assets/img/main.jpg');
+  background-size: cover;
 }
