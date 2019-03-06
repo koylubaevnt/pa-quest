@@ -185,6 +185,27 @@ public class UserQuestServiceImpl implements UserQuestService {
         } else {
             log.debug("Выбераем случайным образом вопросы для квеста");
             // Выберем случайным образом вопросы для квеста
+            List<Integer> indexs = new ArrayList<>(list.size());
+            for (int i = 0; i < list.size(); i++) {
+                indexs.add(i);
+            }
+            Collections.shuffle(indexs);
+
+
+            userQuestions = indexs.stream()
+                    .limit(COUNT_QUESTION_IN_QUEST)
+                    .map(e -> {
+                        log.debug("Случайный индекс: {}", e);
+                        UserQuestion userQuestion = new UserQuestion();
+                        userQuestion.setQuestion(list.get(e));
+                        userQuestion.setNumberOfAttempts(0);
+                        userQuestion.setAnswered(false);
+                        userQuestion.setOrder(index.getAndIncrement());
+                        userQuestion.setUserQuest(userQuest);
+                        return userQuestion;
+                    })
+                    .collect(Collectors.toList());
+            /*
             Random random = new Random();
             userQuestions = random.ints(COUNT_QUESTION_IN_QUEST, 0, list.size()).
                 mapToObj(e -> {
@@ -198,6 +219,7 @@ public class UserQuestServiceImpl implements UserQuestService {
                     return userQuestion;
                 })
                     .collect(Collectors.toList());
+           */
         }
         userQuest.getUserQuestions().addAll(userQuestions);
         userQuest.getUserQuestions().get(0).setStart(LocalDateTime.now());
